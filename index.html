@@ -452,18 +452,6 @@
             margin-bottom: 20px;
         }
 
-        .info-tooltip {
-            position: relative;
-            display: inline-block;
-            margin-left: 5px;
-            cursor: help;
-        }
-
-        .info-tooltip::after {
-            content: 'ℹ️';
-            font-size: 0.8rem;
-        }
-
         footer {
             text-align: center;
             padding: 20px;
@@ -477,12 +465,31 @@
             color: #00d4ff;
             text-decoration: none;
         }
+
+        .progress-bar {
+            width: 300px;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
     </style>
 </head>
 <body>
     <div class="loading-screen" id="loadingScreen">
         <div class="spinner"></div>
         <div class="loading-text" id="loadingText">Loading cancer data from cBioPortal...</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
     </div>
 
     <div class="container">
@@ -516,14 +523,12 @@
             <div class="data-panel">
                 <h2>Top Mutated Genes</h2>
                 <ul class="mutation-list" id="mutationList">
-                    <!-- Populated by JS -->
                 </ul>
             </div>
 
             <div class="data-panel">
                 <h2>Copy Number Variations</h2>
                 <div class="cnv-list" id="cnvList">
-                    <!-- Populated by JS -->
                 </div>
             </div>
 
@@ -568,7 +573,6 @@
             <div class="attempts-display">
                 <span>Attempts remaining</span>
                 <div class="attempts-boxes" id="attemptBoxes">
-                    <!-- Populated by JS -->
                 </div>
             </div>
 
@@ -610,38 +614,39 @@
 
     <script>
         // ============================================
-        // CONFIGURATION - Cancer Studies from cBioPortal
+        // CONFIGURATION - Using non-PanCan TCGA studies
+        // These have more reliable API endpoints
         // ============================================
         const CANCER_STUDIES = [
-            { id: 'brca_tcga_pan_can_atlas_2018', name: 'Breast Cancer', displayName: 'Breast Cancer' },
-            { id: 'luad_tcga_pan_can_atlas_2018', name: 'Lung Adenocarcinoma', displayName: 'Lung Adenocarcinoma' },
-            { id: 'lusc_tcga_pan_can_atlas_2018', name: 'Lung Squamous Cell Carcinoma', displayName: 'Lung Squamous Cell Carcinoma' },
-            { id: 'coadread_tcga_pan_can_atlas_2018', name: 'Colorectal Cancer', displayName: 'Colorectal Cancer' },
-            { id: 'prad_tcga_pan_can_atlas_2018', name: 'Prostate Cancer', displayName: 'Prostate Cancer' },
-            { id: 'skcm_tcga_pan_can_atlas_2018', name: 'Melanoma', displayName: 'Melanoma' },
-            { id: 'ov_tcga_pan_can_atlas_2018', name: 'Ovarian Cancer', displayName: 'Ovarian Cancer' },
-            { id: 'gbm_tcga_pan_can_atlas_2018', name: 'Glioblastoma', displayName: 'Glioblastoma' },
-            { id: 'lgg_tcga_pan_can_atlas_2018', name: 'Low Grade Glioma', displayName: 'Low Grade Glioma' },
-            { id: 'hnsc_tcga_pan_can_atlas_2018', name: 'Head and Neck Cancer', displayName: 'Head and Neck Cancer' },
-            { id: 'kirc_tcga_pan_can_atlas_2018', name: 'Kidney Clear Cell Carcinoma', displayName: 'Kidney Clear Cell Carcinoma' },
-            { id: 'kirp_tcga_pan_can_atlas_2018', name: 'Kidney Papillary Carcinoma', displayName: 'Kidney Papillary Carcinoma' },
-            { id: 'lihc_tcga_pan_can_atlas_2018', name: 'Liver Cancer', displayName: 'Liver Cancer' },
-            { id: 'stad_tcga_pan_can_atlas_2018', name: 'Stomach Cancer', displayName: 'Stomach Cancer' },
-            { id: 'blca_tcga_pan_can_atlas_2018', name: 'Bladder Cancer', displayName: 'Bladder Cancer' },
-            { id: 'ucec_tcga_pan_can_atlas_2018', name: 'Endometrial Cancer', displayName: 'Endometrial Cancer' },
-            { id: 'paad_tcga_pan_can_atlas_2018', name: 'Pancreatic Cancer', displayName: 'Pancreatic Cancer' },
-            { id: 'thca_tcga_pan_can_atlas_2018', name: 'Thyroid Cancer', displayName: 'Thyroid Cancer' },
-            { id: 'esca_tcga_pan_can_atlas_2018', name: 'Esophageal Cancer', displayName: 'Esophageal Cancer' },
-            { id: 'cesc_tcga_pan_can_atlas_2018', name: 'Cervical Cancer', displayName: 'Cervical Cancer' },
-            { id: 'sarc_tcga_pan_can_atlas_2018', name: 'Sarcoma', displayName: 'Sarcoma' },
-            { id: 'acc_tcga_pan_can_atlas_2018', name: 'Adrenocortical Carcinoma', displayName: 'Adrenocortical Carcinoma' },
-            { id: 'pcpg_tcga_pan_can_atlas_2018', name: 'Pheochromocytoma', displayName: 'Pheochromocytoma' },
-            { id: 'tgct_tcga_pan_can_atlas_2018', name: 'Testicular Cancer', displayName: 'Testicular Cancer' },
-            { id: 'chol_tcga_pan_can_atlas_2018', name: 'Cholangiocarcinoma', displayName: 'Cholangiocarcinoma' }
+            { id: 'brca_tcga', name: 'Breast Cancer', displayName: 'Breast Cancer' },
+            { id: 'luad_tcga', name: 'Lung Adenocarcinoma', displayName: 'Lung Adenocarcinoma' },
+            { id: 'lusc_tcga', name: 'Lung Squamous Cell Carcinoma', displayName: 'Lung Squamous Cell Carcinoma' },
+            { id: 'coadread_tcga', name: 'Colorectal Cancer', displayName: 'Colorectal Cancer' },
+            { id: 'prad_tcga', name: 'Prostate Cancer', displayName: 'Prostate Cancer' },
+            { id: 'skcm_tcga', name: 'Melanoma', displayName: 'Melanoma' },
+            { id: 'ov_tcga', name: 'Ovarian Cancer', displayName: 'Ovarian Cancer' },
+            { id: 'gbm_tcga', name: 'Glioblastoma', displayName: 'Glioblastoma' },
+            { id: 'lgg_tcga', name: 'Low Grade Glioma', displayName: 'Low Grade Glioma' },
+            { id: 'hnsc_tcga', name: 'Head and Neck Cancer', displayName: 'Head and Neck Cancer' },
+            { id: 'kirc_tcga', name: 'Kidney Clear Cell Carcinoma', displayName: 'Kidney Clear Cell Carcinoma' },
+            { id: 'kirp_tcga', name: 'Kidney Papillary Carcinoma', displayName: 'Kidney Papillary Carcinoma' },
+            { id: 'lihc_tcga', name: 'Liver Cancer', displayName: 'Liver Cancer' },
+            { id: 'stad_tcga', name: 'Stomach Cancer', displayName: 'Stomach Cancer' },
+            { id: 'blca_tcga', name: 'Bladder Cancer', displayName: 'Bladder Cancer' },
+            { id: 'ucec_tcga', name: 'Endometrial Cancer', displayName: 'Endometrial Cancer' },
+            { id: 'paad_tcga', name: 'Pancreatic Cancer', displayName: 'Pancreatic Cancer' },
+            { id: 'thca_tcga', name: 'Thyroid Cancer', displayName: 'Thyroid Cancer' },
+            { id: 'esca_tcga', name: 'Esophageal Cancer', displayName: 'Esophageal Cancer' },
+            { id: 'cesc_tcga', name: 'Cervical Cancer', displayName: 'Cervical Cancer' },
+            { id: 'sarc_tcga', name: 'Sarcoma', displayName: 'Sarcoma' },
+            { id: 'acc_tcga', name: 'Adrenocortical Carcinoma', displayName: 'Adrenocortical Carcinoma' },
+            { id: 'pcpg_tcga', name: 'Pheochromocytoma', displayName: 'Pheochromocytoma' },
+            { id: 'tgct_tcga', name: 'Testicular Cancer', displayName: 'Testicular Cancer' },
+            { id: 'chol_tcga', name: 'Cholangiocarcinoma', displayName: 'Cholangiocarcinoma' }
         ];
 
         const API_BASE = 'https://www.cbioportal.org/api';
-        const CACHE_KEY = 'oncowordle_cache';
+        const CACHE_KEY = 'oncowordle_cache_v2';
         const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
         const MAX_ATTEMPTS = 6;
 
@@ -669,6 +674,7 @@
         const elements = {
             loadingScreen: document.getElementById('loadingScreen'),
             loadingText: document.getElementById('loadingText'),
+            progressFill: document.getElementById('progressFill'),
             errorContainer: document.getElementById('errorContainer'),
             mutationList: document.getElementById('mutationList'),
             cnvList: document.getElementById('cnvList'),
@@ -700,24 +706,43 @@
         // ============================================
         // API FUNCTIONS
         // ============================================
-        async function fetchWithRetry(url, retries = 3) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    return await response.json();
-                } catch (error) {
-                    if (i === retries - 1) throw error;
-                    await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+        async function fetchJSON(url) {
+            const response = await fetch(url, {
+                headers: {
+                    'Accept': 'application/json'
                 }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
+            return response.json();
+        }
+
+        async function postJSON(url, body) {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return response.json();
         }
 
         async function fetchStudyData(study) {
             const studyId = study.id;
-            
-            // Get molecular profiles
-            const profiles = await fetchWithRetry(`${API_BASE}/studies/${studyId}/molecular-profiles`);
+            console.log(`Fetching data for ${studyId}...`);
+
+            // Step 1: Get study info and sample count
+            const studyInfo = await fetchJSON(`${API_BASE}/studies/${studyId}`);
+            const sampleCount = studyInfo.allSampleCount;
+
+            // Step 2: Get molecular profiles
+            const profiles = await fetchJSON(`${API_BASE}/studies/${studyId}/molecular-profiles`);
             
             const mutationProfile = profiles.find(p => 
                 p.molecularAlterationType === 'MUTATION_EXTENDED'
@@ -727,109 +752,145 @@
                 p.datatype === 'DISCRETE'
             );
 
-            // Get sample list
-            const sampleLists = await fetchWithRetry(`${API_BASE}/studies/${studyId}/sample-lists`);
-            const allSampleList = sampleLists.find(s => s.category === 'all_cases_in_study') || sampleLists[0];
+            // Step 3: Get sample IDs
+            const samples = await fetchJSON(`${API_BASE}/studies/${studyId}/samples?projection=ID`);
+            const sampleIds = samples.map(s => s.sampleId);
 
-            // Get samples
-            const samples = await fetchWithRetry(`${API_BASE}/sample-lists/${allSampleList.sampleListId}/sample-ids`);
-
-            // Get clinical data
-            const clinicalData = await fetchWithRetry(
-                `${API_BASE}/studies/${studyId}/clinical-data?clinicalDataType=PATIENT&projection=DETAILED`
-            );
-
-            // Get mutation data (gene frequencies)
+            // Step 4: Get mutation data using POST endpoint
             let mutationGenes = [];
             if (mutationProfile) {
                 try {
-                    const mutationData = await fetchWithRetry(
-                        `${API_BASE}/molecular-profiles/${mutationProfile.molecularProfileId}/mutation-genes?` +
-                        new URLSearchParams({ projection: 'SUMMARY' })
+                    const mutations = await postJSON(
+                        `${API_BASE}/molecular-profiles/${mutationProfile.molecularProfileId}/mutations?projection=SUMMARY`,
+                        {
+                            sampleIds: sampleIds,
+                            sampleListId: `${studyId}_all`
+                        }
                     );
-                    mutationGenes = mutationData
-                        .sort((a, b) => b.numberOfAlteredCases - a.numberOfAlteredCases)
-                        .slice(0, 10)
-                        .map(g => ({
-                            gene: g.hugoGeneSymbol,
-                            frequency: ((g.numberOfAlteredCases / samples.length) * 100).toFixed(1)
-                        }));
+
+                    // Count unique samples per gene
+                    const geneSampleCounts = {};
+                    mutations.forEach(m => {
+                        const gene = m.gene.hugoGeneSymbol;
+                        if (!geneSampleCounts[gene]) {
+                            geneSampleCounts[gene] = new Set();
+                        }
+                        geneSampleCounts[gene].add(m.sampleId);
+                    });
+
+                    mutationGenes = Object.entries(geneSampleCounts)
+                        .map(([gene, samples]) => ({
+                            gene,
+                            count: samples.size,
+                            frequency: ((samples.size / sampleCount) * 100).toFixed(1)
+                        }))
+                        .sort((a, b) => b.count - a.count)
+                        .slice(0, 10);
+
+                    console.log(`  Found ${mutationGenes.length} mutated genes`);
                 } catch (e) {
-                    console.warn('Could not fetch mutation genes:', e);
+                    console.warn(`  Could not fetch mutations: ${e.message}`);
                 }
             }
 
-            // Get CNA data
+            // Step 5: Get CNA data
             let cnaGenes = { amplifications: [], deletions: [] };
             if (cnaProfile) {
                 try {
-                    const cnaData = await fetchWithRetry(
-                        `${API_BASE}/molecular-profiles/${cnaProfile.molecularProfileId}/discrete-copy-number?` +
-                        new URLSearchParams({ 
-                            projection: 'SUMMARY',
-                            discreteCopyNumberEventType: 'ALL'
-                        })
+                    const cnaData = await postJSON(
+                        `${API_BASE}/molecular-profiles/${cnaProfile.molecularProfileId}/discrete-copy-number?projection=SUMMARY&discreteCopyNumberEventType=ALL`,
+                        {
+                            sampleIds: sampleIds,
+                            sampleListId: `${studyId}_all`
+                        }
                     );
-                    
-                    // Count amplifications and deletions
+
+                    // Count amplifications and deletions per gene
                     const ampCounts = {};
                     const delCounts = {};
-                    
+
                     cnaData.forEach(item => {
-                        if (item.alteration === 2) { // Amplification
-                            ampCounts[item.hugoGeneSymbol] = (ampCounts[item.hugoGeneSymbol] || 0) + 1;
-                        } else if (item.alteration === -2) { // Deep deletion
-                            delCounts[item.hugoGeneSymbol] = (delCounts[item.hugoGeneSymbol] || 0) + 1;
+                        const gene = item.gene.hugoGeneSymbol;
+                        if (item.alteration === 2) {
+                            if (!ampCounts[gene]) ampCounts[gene] = new Set();
+                            ampCounts[gene].add(item.sampleId);
+                        } else if (item.alteration === -2) {
+                            if (!delCounts[gene]) delCounts[gene] = new Set();
+                            delCounts[gene].add(item.sampleId);
                         }
                     });
 
                     cnaGenes.amplifications = Object.entries(ampCounts)
-                        .sort((a, b) => b[1] - a[1])
-                        .slice(0, 5)
-                        .map(([gene, count]) => ({
+                        .map(([gene, samples]) => ({
                             gene,
-                            frequency: ((count / samples.length) * 100).toFixed(1)
-                        }));
+                            count: samples.size,
+                            frequency: ((samples.size / sampleCount) * 100).toFixed(1)
+                        }))
+                        .sort((a, b) => b.count - a.count)
+                        .slice(0, 5);
 
                     cnaGenes.deletions = Object.entries(delCounts)
-                        .sort((a, b) => b[1] - a[1])
-                        .slice(0, 5)
-                        .map(([gene, count]) => ({
+                        .map(([gene, samples]) => ({
                             gene,
-                            frequency: ((count / samples.length) * 100).toFixed(1)
-                        }));
+                            count: samples.size,
+                            frequency: ((samples.size / sampleCount) * 100).toFixed(1)
+                        }))
+                        .sort((a, b) => b.count - a.count)
+                        .slice(0, 5);
+
+                    console.log(`  Found ${cnaGenes.amplifications.length} amps, ${cnaGenes.deletions.length} dels`);
                 } catch (e) {
-                    console.warn('Could not fetch CNA data:', e);
+                    console.warn(`  Could not fetch CNA: ${e.message}`);
                 }
             }
 
-            // Process clinical data
+            // Step 6: Get clinical data
+            const clinicalData = await fetchJSON(
+                `${API_BASE}/studies/${studyId}/clinical-data?clinicalDataType=PATIENT&projection=DETAILED`
+            );
+
             const ages = [];
             const sexCounts = { male: 0, female: 0 };
             const tmbs = [];
 
             clinicalData.forEach(item => {
-                if (item.clinicalAttributeId === 'AGE' && item.value && item.value !== 'NA') {
-                    ages.push(parseFloat(item.value));
+                const attrId = item.clinicalAttributeId.toUpperCase();
+                const value = item.value;
+
+                if (!value || value === 'NA' || value === '[Not Available]' || value === '[Not Applicable]') {
+                    return;
                 }
-                if (item.clinicalAttributeId === 'SEX' || item.clinicalAttributeId === 'GENDER') {
-                    if (item.value && item.value.toUpperCase() === 'MALE') sexCounts.male++;
-                    if (item.value && item.value.toUpperCase() === 'FEMALE') sexCounts.female++;
+
+                if (attrId === 'AGE' || attrId === 'AGE_AT_DIAGNOSIS' || attrId === 'DIAGNOSIS_AGE') {
+                    const age = parseFloat(value);
+                    if (!isNaN(age) && age > 0 && age < 120) {
+                        ages.push(age);
+                    }
                 }
-                if ((item.clinicalAttributeId === 'TMB_NONSYNONYMOUS' || 
-                     item.clinicalAttributeId === 'MUTATION_COUNT') && 
-                    item.value && item.value !== 'NA') {
-                    tmbs.push(parseFloat(item.value));
+
+                if (attrId === 'SEX' || attrId === 'GENDER') {
+                    const sex = value.toUpperCase();
+                    if (sex === 'MALE' || sex === 'M') sexCounts.male++;
+                    if (sex === 'FEMALE' || sex === 'F') sexCounts.female++;
+                }
+
+                if (attrId === 'TMB_NONSYNONYMOUS' || attrId === 'MUTATION_COUNT' || attrId === 'TMB_SCORE') {
+                    const tmb = parseFloat(value);
+                    if (!isNaN(tmb) && tmb >= 0) {
+                        tmbs.push(tmb);
+                    }
                 }
             });
 
             const totalSex = sexCounts.male + sexCounts.female;
 
+            console.log(`  Clinical: ${ages.length} ages, ${totalSex} sex records, ${tmbs.length} TMBs`);
+
             return {
                 studyId: study.id,
                 cancerType: study.name,
                 displayName: study.displayName,
-                sampleCount: samples.length,
+                sampleCount: sampleCount,
                 mutations: mutationGenes,
                 cnv: cnaGenes,
                 clinical: {
@@ -842,6 +903,7 @@
         }
 
         function median(arr) {
+            if (arr.length === 0) return null;
             const sorted = [...arr].sort((a, b) => a - b);
             const mid = Math.floor(sorted.length / 2);
             return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
@@ -856,7 +918,10 @@
                 if (cached) {
                     const parsed = JSON.parse(cached);
                     if (Date.now() - parsed.timestamp < CACHE_EXPIRY) {
+                        console.log('Loaded data from cache');
                         return parsed.data;
+                    } else {
+                        console.log('Cache expired');
                     }
                 }
             } catch (e) {
@@ -871,6 +936,7 @@
                     timestamp: Date.now(),
                     data: data
                 }));
+                console.log('Saved data to cache');
             } catch (e) {
                 console.warn('Cache save failed:', e);
             }
@@ -909,23 +975,25 @@
 
         function renderGameData(data) {
             // Mutations
-            elements.mutationList.innerHTML = data.mutations.length > 0
-                ? data.mutations.map(m => `
+            if (data.mutations && data.mutations.length > 0) {
+                elements.mutationList.innerHTML = data.mutations.map(m => `
                     <li>
                         <span class="gene">${m.gene}</span>
                         <span class="freq">${m.frequency}%</span>
                     </li>
-                `).join('')
-                : '<li>No mutation data available</li>';
+                `).join('');
+            } else {
+                elements.mutationList.innerHTML = '<li>No mutation data available</li>';
+            }
 
             // CNVs
             let cnvHtml = '';
-            if (data.cnv.amplifications.length > 0) {
+            if (data.cnv && data.cnv.amplifications && data.cnv.amplifications.length > 0) {
                 cnvHtml += data.cnv.amplifications.map(c => 
                     `<span class="cnv-tag cnv-amp">↑ ${c.gene} (${c.frequency}%)</span>`
                 ).join('');
             }
-            if (data.cnv.deletions.length > 0) {
+            if (data.cnv && data.cnv.deletions && data.cnv.deletions.length > 0) {
                 cnvHtml += data.cnv.deletions.map(c => 
                     `<span class="cnv-tag cnv-del">↓ ${c.gene} (${c.frequency}%)</span>`
                 ).join('');
@@ -937,7 +1005,7 @@
                 ? `${data.clinical.medianAge} yrs` 
                 : 'N/A';
             elements.tmb.textContent = data.clinical.medianTMB 
-                ? `${data.clinical.medianTMB} mut/Mb` 
+                ? `${data.clinical.medianTMB}` 
                 : 'N/A';
             elements.malePercent.textContent = data.clinical.malePercent !== null 
                 ? `${data.clinical.malePercent}%` 
@@ -948,7 +1016,7 @@
 
             // Sample info
             elements.sampleCount.textContent = data.sampleCount;
-            elements.studyName.textContent = 'TCGA PanCan';
+            elements.studyName.textContent = 'TCGA';
         }
 
         function renderAttemptBoxes() {
@@ -992,9 +1060,14 @@
                 <div class="error-message">
                     ${message}
                     <br><br>
-                    <button class="btn btn-primary" onclick="location.reload()">Retry</button>
+                    <button class="btn btn-primary" onclick="clearCacheAndReload()">Clear Cache & Retry</button>
                 </div>
             `;
+        }
+
+        function clearCacheAndReload() {
+            localStorage.removeItem(CACHE_KEY);
+            location.reload();
         }
 
         function showResult(won) {
@@ -1040,7 +1113,6 @@
                 `).join('');
                 list.classList.add('show');
 
-                // Add click handlers
                 list.querySelectorAll('.autocomplete-item').forEach(item => {
                     item.addEventListener('click', () => {
                         input.value = item.dataset.value;
@@ -1075,6 +1147,9 @@
                 items.forEach((item, i) => {
                     item.classList.toggle('selected', i === selectedIndex);
                 });
+                if (selectedIndex >= 0 && items[selectedIndex]) {
+                    items[selectedIndex].scrollIntoView({ block: 'nearest' });
+                }
             }
 
             document.addEventListener('click', (e) => {
@@ -1093,7 +1168,6 @@
             const guess = elements.guessInput.value.trim();
             if (!guess) return;
 
-            // Validate guess is in our list
             const validCancer = CANCER_STUDIES.find(s => 
                 s.displayName.toLowerCase() === guess.toLowerCase()
             );
@@ -1106,7 +1180,6 @@
                 return;
             }
 
-            // Check if already guessed
             if (gameState.guesses.some(g => g.guess.toLowerCase() === guess.toLowerCase())) {
                 return;
             }
@@ -1144,9 +1217,19 @@
         }
 
         function startNewGame() {
-            // Pick random study from cached data
             const studyIds = Object.keys(cachedData);
-            const randomId = studyIds[Math.floor(Math.random() * studyIds.length)];
+            
+            // Filter to only studies with mutation data
+            const validStudyIds = studyIds.filter(id => 
+                cachedData[id].mutations && cachedData[id].mutations.length > 0
+            );
+
+            if (validStudyIds.length === 0) {
+                showError('No studies with valid mutation data found. Please try clearing cache and reloading.');
+                return;
+            }
+
+            const randomId = validStudyIds[Math.floor(Math.random() * validStudyIds.length)];
             
             gameState.currentStudy = CANCER_STUDIES.find(s => s.id === randomId);
             gameState.currentData = cachedData[randomId];
@@ -1162,6 +1245,8 @@
             renderGameData(gameState.currentData);
             renderAttemptBoxes();
             renderGuessHistory();
+
+            console.log('New game started:', gameState.currentData.displayName);
         }
 
         // ============================================
@@ -1173,7 +1258,7 @@
 
             // Try loading from cache first
             const cached = loadCache();
-            if (cached && Object.keys(cached).length > 0) {
+            if (cached && Object.keys(cached).length >= 5) {
                 cachedData = cached;
                 elements.loadingScreen.classList.add('hidden');
                 setupAutocomplete();
@@ -1187,22 +1272,32 @@
 
             for (let i = 0; i < CANCER_STUDIES.length; i++) {
                 const study = CANCER_STUDIES[i];
+                const progress = ((i + 1) / totalStudies) * 100;
                 elements.loadingText.textContent = `Loading ${study.displayName}... (${i + 1}/${totalStudies})`;
+                elements.progressFill.style.width = `${progress}%`;
                 
                 try {
                     const data = await fetchStudyData(study);
-                    cachedData[study.id] = data;
-                    successCount++;
                     
-                    // Small delay to avoid rate limiting
-                    await new Promise(r => setTimeout(r, 300));
+                    // Only save if we got some useful data
+                    if (data.mutations.length > 0 || data.cnv.amplifications.length > 0) {
+                        cachedData[study.id] = data;
+                        successCount++;
+                    } else {
+                        console.warn(`Skipping ${study.id} - no mutation/CNV data`);
+                    }
+                    
+                    // Delay to avoid rate limiting
+                    await new Promise(r => setTimeout(r, 500));
                 } catch (error) {
                     console.error(`Failed to load ${study.name}:`, error);
                 }
             }
 
-            if (successCount === 0) {
-                showError('Failed to load any cancer data from cBioPortal. Please try again later.');
+            console.log(`Successfully loaded ${successCount} of ${totalStudies} studies`);
+
+            if (successCount < 3) {
+                showError(`Only loaded ${successCount} cancer types. cBioPortal may be experiencing issues. Please try again later.`);
                 elements.loadingScreen.classList.add('hidden');
                 return;
             }
@@ -1219,15 +1314,16 @@
         // EVENT LISTENERS
         // ============================================
         elements.submitBtn.addEventListener('click', submitGuess);
+        
         elements.guessInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                // Only submit if autocomplete is not showing or nothing is selected
                 const list = elements.autocompleteList;
                 if (!list.classList.contains('show') || !list.querySelector('.selected')) {
                     submitGuess();
                 }
             }
         });
+        
         elements.skipBtn.addEventListener('click', () => {
             if (!gameState.gameOver) {
                 gameState.stats.played++;
@@ -1237,7 +1333,11 @@
             }
             startNewGame();
         });
+        
         elements.playAgainBtn.addEventListener('click', startNewGame);
+
+        // Make clearCacheAndReload available globally
+        window.clearCacheAndReload = clearCacheAndReload;
 
         // Start the game
         initialize();
