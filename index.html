@@ -3,1344 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OncoWordle - Cancer Genotype Guessing Game</title>
+    <title>OncoWordle - API Test</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #eee;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 2px solid #4a4a6a;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #888;
-            font-size: 1rem;
-        }
-
-        .game-area {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .game-area {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .data-panel {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .data-panel h2 {
-            font-size: 1.1rem;
-            color: #00d4ff;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .data-panel h2::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 20px;
-            background: #00d4ff;
-            border-radius: 2px;
-        }
-
-        .mutation-list {
-            list-style: none;
-        }
-
-        .mutation-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 12px;
-            margin-bottom: 6px;
-            background: rgba(0, 212, 255, 0.1);
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
-
-        .mutation-list li .gene {
-            color: #00d4ff;
-            font-weight: bold;
-        }
-
-        .mutation-list li .freq {
-            color: #888;
-        }
-
-        .cnv-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .cnv-tag {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-family: 'Courier New', monospace;
-        }
-
-        .cnv-amp {
-            background: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 107, 107, 0.3);
-        }
-
-        .cnv-del {
-            background: rgba(78, 205, 196, 0.2);
-            color: #4ecdc4;
-            border: 1px solid rgba(78, 205, 196, 0.3);
-        }
-
-        .clinical-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .clinical-item {
-            background: rgba(123, 44, 191, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .clinical-item .label {
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 5px;
-        }
-
-        .clinical-item .value {
-            font-size: 1.3rem;
-            color: #7b2cbf;
-            font-weight: bold;
-        }
-
-        .clinical-item .value.small {
-            font-size: 1rem;
-        }
-
-        .guess-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .guess-input-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        #guessInput {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 1.1rem;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        #guessInput:focus {
-            border-color: #00d4ff;
-        }
-
-        #guessInput::placeholder {
-            color: #666;
-        }
-
-        .autocomplete-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
+            font-family: monospace;
             background: #1a1a2e;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 0 0 8px 8px;
+            color: #eee;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .success { color: #4ecdc4; }
+        .error { color: #ff6b6b; }
+        .info { color: #00d4ff; }
+        pre {
+            background: #000;
+            padding: 10px;
+            overflow-x: auto;
             max-height: 200px;
             overflow-y: auto;
-            z-index: 100;
-            display: none;
         }
-
-        .autocomplete-list.show {
-            display: block;
-        }
-
-        .autocomplete-item {
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .autocomplete-item:hover,
-        .autocomplete-item.selected {
-            background: rgba(0, 212, 255, 0.2);
-        }
-
-        .btn {
-            padding: 12px 30px;
-            font-size: 1rem;
+        button {
+            background: #00d4ff;
             border: none;
-            border-radius: 8px;
+            padding: 10px 20px;
+            color: #000;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
+            font-size: 16px;
+            margin: 10px 0;
         }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            margin-left: 10px;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .attempts-display {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .attempts-boxes {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .attempt-box {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .attempt-box.wrong {
-            background: rgba(255, 107, 107, 0.3);
-            border-color: #ff6b6b;
-        }
-
-        .attempt-box.correct {
-            background: rgba(78, 205, 196, 0.3);
-            border-color: #4ecdc4;
-        }
-
-        .guess-history {
+        #log {
             margin-top: 20px;
-        }
-
-        .guess-history h3 {
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 10px;
-        }
-
-        .history-list {
-            list-style: none;
-        }
-
-        .history-list li {
-            padding: 8px 15px;
-            margin-bottom: 5px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .history-list li.wrong {
-            background: rgba(255, 107, 107, 0.1);
-            border-left: 3px solid #ff6b6b;
-        }
-
-        .result-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .result-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: #1a1a2e;
-            padding: 40px;
-            border-radius: 16px;
-            text-align: center;
-            max-width: 500px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-content h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .modal-content.win h2 {
-            color: #4ecdc4;
-        }
-
-        .modal-content.lose h2 {
-            color: #ff6b6b;
-        }
-
-        .modal-content p {
-            margin-bottom: 15px;
-            color: #ccc;
-        }
-
-        .correct-answer {
-            font-size: 1.5rem;
-            color: #00d4ff;
-            font-weight: bold;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(0, 212, 255, 0.1);
-            border-radius: 8px;
-        }
-
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #1a1a2e;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .loading-screen.hidden {
-            display: none;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #00d4ff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .loading-text {
-            color: #888;
-            font-size: 1.1rem;
-        }
-
-        .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-item .num {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #00d4ff;
-        }
-
-        .stat-item .label {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .error-message {
-            background: rgba(255, 107, 107, 0.2);
-            border: 1px solid #ff6b6b;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 40px;
-        }
-
-        footer a {
-            color: #00d4ff;
-            text-decoration: none;
-        }
-
-        .progress-bar {
-            width: 300px;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            margin-top: 15px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
-            border-radius: 3px;
-            transition: width 0.3s;
         }
     </style>
 </head>
 <body>
-    <div class="loading-screen" id="loadingScreen">
-        <div class="spinner"></div>
-        <div class="loading-text" id="loadingText">Loading cancer data from cBioPortal...</div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-        </div>
-    </div>
-
-    <div class="container">
-        <header>
-            <h1>🧬 OncoWordle</h1>
-            <p class="subtitle">Guess the cancer type from its genomic profile</p>
-        </header>
-
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="num" id="gamesPlayed">0</div>
-                <div class="label">Played</div>
-            </div>
-            <div class="stat-item">
-                <div class="num" id="gamesWon">0</div>
-                <div class="label">Won</div>
-            </div>
-            <div class="stat-item">
-                <div class="num" id="winRate">0%</div>
-                <div class="label">Win Rate</div>
-            </div>
-            <div class="stat-item">
-                <div class="num" id="currentStreak">0</div>
-                <div class="label">Streak</div>
-            </div>
-        </div>
-
-        <div id="errorContainer"></div>
-
-        <div class="game-area">
-            <div class="data-panel">
-                <h2>Top Mutated Genes</h2>
-                <ul class="mutation-list" id="mutationList">
-                </ul>
-            </div>
-
-            <div class="data-panel">
-                <h2>Copy Number Variations</h2>
-                <div class="cnv-list" id="cnvList">
-                </div>
-            </div>
-
-            <div class="data-panel">
-                <h2>Clinical Characteristics</h2>
-                <div class="clinical-grid">
-                    <div class="clinical-item">
-                        <div class="label">Median Age at Diagnosis</div>
-                        <div class="value" id="medianAge">--</div>
-                    </div>
-                    <div class="clinical-item">
-                        <div class="label">TMB (median)</div>
-                        <div class="value" id="tmb">--</div>
-                    </div>
-                    <div class="clinical-item">
-                        <div class="label">Male</div>
-                        <div class="value" id="malePercent">--</div>
-                    </div>
-                    <div class="clinical-item">
-                        <div class="label">Female</div>
-                        <div class="value" id="femalePercent">--</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="data-panel">
-                <h2>Sample Info</h2>
-                <div class="clinical-grid">
-                    <div class="clinical-item">
-                        <div class="label">Total Samples</div>
-                        <div class="value" id="sampleCount">--</div>
-                    </div>
-                    <div class="clinical-item">
-                        <div class="label">Study</div>
-                        <div class="value small" id="studyName">--</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="guess-section">
-            <div class="attempts-display">
-                <span>Attempts remaining</span>
-                <div class="attempts-boxes" id="attemptBoxes">
-                </div>
-            </div>
-
-            <div class="guess-input-container">
-                <input 
-                    type="text" 
-                    id="guessInput" 
-                    placeholder="Type your guess..." 
-                    autocomplete="off"
-                >
-                <div class="autocomplete-list" id="autocompleteList"></div>
-            </div>
-
-            <div style="text-align: center;">
-                <button class="btn btn-primary" id="submitBtn">Submit Guess</button>
-                <button class="btn btn-secondary" id="skipBtn">Skip / New Game</button>
-            </div>
-
-            <div class="guess-history" id="guessHistory">
-                <h3>Previous Guesses</h3>
-                <ul class="history-list" id="historyList"></ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="result-modal" id="resultModal">
-        <div class="modal-content" id="modalContent">
-            <h2 id="resultTitle">Result</h2>
-            <p id="resultMessage"></p>
-            <div class="correct-answer" id="correctAnswer"></div>
-            <button class="btn btn-primary" id="playAgainBtn">Play Again</button>
-        </div>
-    </div>
-
-    <footer>
-        <p>Data sourced from <a href="https://www.cbioportal.org/" target="_blank">cBioPortal</a> | 
-        Educational purposes only</p>
-    </footer>
+    <h1>🧬 OncoWordle - API Diagnostic Test</h1>
+    <p>This will test connectivity to cBioPortal API and show exactly what's happening.</p>
+    
+    <button onclick="runTests()">Run API Tests</button>
+    <button onclick="clearLog()">Clear Log</button>
+    
+    <div id="log"></div>
 
     <script>
-        // ============================================
-        // CONFIGURATION - Using non-PanCan TCGA studies
-        // These have more reliable API endpoints
-        // ============================================
-        const CANCER_STUDIES = [
-            { id: 'brca_tcga', name: 'Breast Cancer', displayName: 'Breast Cancer' },
-            { id: 'luad_tcga', name: 'Lung Adenocarcinoma', displayName: 'Lung Adenocarcinoma' },
-            { id: 'lusc_tcga', name: 'Lung Squamous Cell Carcinoma', displayName: 'Lung Squamous Cell Carcinoma' },
-            { id: 'coadread_tcga', name: 'Colorectal Cancer', displayName: 'Colorectal Cancer' },
-            { id: 'prad_tcga', name: 'Prostate Cancer', displayName: 'Prostate Cancer' },
-            { id: 'skcm_tcga', name: 'Melanoma', displayName: 'Melanoma' },
-            { id: 'ov_tcga', name: 'Ovarian Cancer', displayName: 'Ovarian Cancer' },
-            { id: 'gbm_tcga', name: 'Glioblastoma', displayName: 'Glioblastoma' },
-            { id: 'lgg_tcga', name: 'Low Grade Glioma', displayName: 'Low Grade Glioma' },
-            { id: 'hnsc_tcga', name: 'Head and Neck Cancer', displayName: 'Head and Neck Cancer' },
-            { id: 'kirc_tcga', name: 'Kidney Clear Cell Carcinoma', displayName: 'Kidney Clear Cell Carcinoma' },
-            { id: 'kirp_tcga', name: 'Kidney Papillary Carcinoma', displayName: 'Kidney Papillary Carcinoma' },
-            { id: 'lihc_tcga', name: 'Liver Cancer', displayName: 'Liver Cancer' },
-            { id: 'stad_tcga', name: 'Stomach Cancer', displayName: 'Stomach Cancer' },
-            { id: 'blca_tcga', name: 'Bladder Cancer', displayName: 'Bladder Cancer' },
-            { id: 'ucec_tcga', name: 'Endometrial Cancer', displayName: 'Endometrial Cancer' },
-            { id: 'paad_tcga', name: 'Pancreatic Cancer', displayName: 'Pancreatic Cancer' },
-            { id: 'thca_tcga', name: 'Thyroid Cancer', displayName: 'Thyroid Cancer' },
-            { id: 'esca_tcga', name: 'Esophageal Cancer', displayName: 'Esophageal Cancer' },
-            { id: 'cesc_tcga', name: 'Cervical Cancer', displayName: 'Cervical Cancer' },
-            { id: 'sarc_tcga', name: 'Sarcoma', displayName: 'Sarcoma' },
-            { id: 'acc_tcga', name: 'Adrenocortical Carcinoma', displayName: 'Adrenocortical Carcinoma' },
-            { id: 'pcpg_tcga', name: 'Pheochromocytoma', displayName: 'Pheochromocytoma' },
-            { id: 'tgct_tcga', name: 'Testicular Cancer', displayName: 'Testicular Cancer' },
-            { id: 'chol_tcga', name: 'Cholangiocarcinoma', displayName: 'Cholangiocarcinoma' }
-        ];
-
         const API_BASE = 'https://www.cbioportal.org/api';
-        const CACHE_KEY = 'oncowordle_cache_v2';
-        const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
-        const MAX_ATTEMPTS = 6;
+        const logDiv = document.getElementById('log');
 
-        // ============================================
-        // GAME STATE
-        // ============================================
-        let gameState = {
-            currentStudy: null,
-            currentData: null,
-            attempts: 0,
-            guesses: [],
-            gameOver: false,
-            stats: {
-                played: 0,
-                won: 0,
-                streak: 0
-            }
-        };
+        function log(message, type = 'info') {
+            const p = document.createElement('p');
+            p.className = type;
+            p.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(p);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
 
-        let cachedData = {};
+        function logData(label, data) {
+            const pre = document.createElement('pre');
+            pre.textContent = `${label}:\n${JSON.stringify(data, null, 2)}`;
+            logDiv.appendChild(pre);
+        }
 
-        // ============================================
-        // DOM ELEMENTS
-        // ============================================
-        const elements = {
-            loadingScreen: document.getElementById('loadingScreen'),
-            loadingText: document.getElementById('loadingText'),
-            progressFill: document.getElementById('progressFill'),
-            errorContainer: document.getElementById('errorContainer'),
-            mutationList: document.getElementById('mutationList'),
-            cnvList: document.getElementById('cnvList'),
-            medianAge: document.getElementById('medianAge'),
-            tmb: document.getElementById('tmb'),
-            malePercent: document.getElementById('malePercent'),
-            femalePercent: document.getElementById('femalePercent'),
-            sampleCount: document.getElementById('sampleCount'),
-            studyName: document.getElementById('studyName'),
-            guessInput: document.getElementById('guessInput'),
-            autocompleteList: document.getElementById('autocompleteList'),
-            submitBtn: document.getElementById('submitBtn'),
-            skipBtn: document.getElementById('skipBtn'),
-            attemptBoxes: document.getElementById('attemptBoxes'),
-            historyList: document.getElementById('historyList'),
-            guessHistory: document.getElementById('guessHistory'),
-            resultModal: document.getElementById('resultModal'),
-            modalContent: document.getElementById('modalContent'),
-            resultTitle: document.getElementById('resultTitle'),
-            resultMessage: document.getElementById('resultMessage'),
-            correctAnswer: document.getElementById('correctAnswer'),
-            playAgainBtn: document.getElementById('playAgainBtn'),
-            gamesPlayed: document.getElementById('gamesPlayed'),
-            gamesWon: document.getElementById('gamesWon'),
-            winRate: document.getElementById('winRate'),
-            currentStreak: document.getElementById('currentStreak')
-        };
+        function clearLog() {
+            logDiv.innerHTML = '';
+        }
 
-        // ============================================
-        // API FUNCTIONS
-        // ============================================
-        async function fetchJSON(url) {
-            const response = await fetch(url, {
-                headers: {
-                    'Accept': 'application/json'
+        async function runTests() {
+            clearLog();
+            log('Starting API diagnostic tests...', 'info');
+
+            // Test 1: Basic API connectivity
+            log('TEST 1: Basic API connectivity (fetching cancer types list)...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/cancer-types?projection=SUMMARY`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                log(`Response status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ SUCCESS: Retrieved ${data.length} cancer types`, 'success');
+                } else {
+                    const text = await response.text();
+                    log(`✗ FAILED: ${text}`, 'error');
                 }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            } catch (e) {
+                log(`✗ ERROR: ${e.message}`, 'error');
+                log('This might be a CORS issue. Check browser console for more details.', 'error');
             }
-            return response.json();
-        }
 
-        async function postJSON(url, body) {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            // Test 2: Fetch a specific study
+            log('', 'info');
+            log('TEST 2: Fetching study info for brca_tcga...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/studies/brca_tcga`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                log(`Response status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ SUCCESS: Study "${data.name}" has ${data.allSampleCount} samples`, 'success');
+                    logData('Study data', data);
+                } else {
+                    const text = await response.text();
+                    log(`✗ FAILED: ${text}`, 'error');
+                }
+            } catch (e) {
+                log(`✗ ERROR: ${e.message}`, 'error');
             }
-            return response.json();
-        }
 
-        async function fetchStudyData(study) {
-            const studyId = study.id;
-            console.log(`Fetching data for ${studyId}...`);
+            // Test 3: Fetch molecular profiles
+            log('', 'info');
+            log('TEST 3: Fetching molecular profiles for brca_tcga...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/studies/brca_tcga/molecular-profiles`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                log(`Response status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ SUCCESS: Found ${data.length} molecular profiles`, 'success');
+                    
+                    const mutProfile = data.find(p => p.molecularAlterationType === 'MUTATION_EXTENDED');
+                    const cnaProfile = data.find(p => p.molecularAlterationType === 'COPY_NUMBER_ALTERATION');
+                    
+                    if (mutProfile) {
+                        log(`  - Mutation profile: ${mutProfile.molecularProfileId}`, 'success');
+                    }
+                    if (cnaProfile) {
+                        log(`  - CNA profile: ${cnaProfile.molecularProfileId}`, 'success');
+                    }
+                    
+                    logData('Profiles', data.map(p => ({ id: p.molecularProfileId, type: p.molecularAlterationType })));
+                } else {
+                    const text = await response.text();
+                    log(`✗ FAILED: ${text}`, 'error');
+                }
+            } catch (e) {
+                log(`✗ ERROR: ${e.message}`, 'error');
+            }
 
-            // Step 1: Get study info and sample count
-            const studyInfo = await fetchJSON(`${API_BASE}/studies/${studyId}`);
-            const sampleCount = studyInfo.allSampleCount;
+            // Test 4: Fetch samples
+            log('', 'info');
+            log('TEST 4: Fetching samples for brca_tcga...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/studies/brca_tcga/samples?projection=ID`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                log(`Response status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ SUCCESS: Found ${data.length} samples`, 'success');
+                    logData('First 5 samples', data.slice(0, 5));
+                } else {
+                    const text = await response.text();
+                    log(`✗ FAILED: ${text}`, 'error');
+                }
+            } catch (e) {
+                log(`✗ ERROR: ${e.message}`, 'error');
+            }
 
-            // Step 2: Get molecular profiles
-            const profiles = await fetchJSON(`${API_BASE}/studies/${studyId}/molecular-profiles`);
-            
-            const mutationProfile = profiles.find(p => 
-                p.molecularAlterationType === 'MUTATION_EXTENDED'
-            );
-            const cnaProfile = profiles.find(p => 
-                p.molecularAlterationType === 'COPY_NUMBER_ALTERATION' && 
-                p.datatype === 'DISCRETE'
-            );
-
-            // Step 3: Get sample IDs
-            const samples = await fetchJSON(`${API_BASE}/studies/${studyId}/samples?projection=ID`);
-            const sampleIds = samples.map(s => s.sampleId);
-
-            // Step 4: Get mutation data using POST endpoint
-            let mutationGenes = [];
-            if (mutationProfile) {
-                try {
-                    const mutations = await postJSON(
-                        `${API_BASE}/molecular-profiles/${mutationProfile.molecularProfileId}/mutations?projection=SUMMARY`,
-                        {
-                            sampleIds: sampleIds,
-                            sampleListId: `${studyId}_all`
-                        }
-                    );
-
-                    // Count unique samples per gene
-                    const geneSampleCounts = {};
-                    mutations.forEach(m => {
-                        const gene = m.gene.hugoGeneSymbol;
-                        if (!geneSampleCounts[gene]) {
-                            geneSampleCounts[gene] = new Set();
-                        }
-                        geneSampleCounts[gene].add(m.sampleId);
+            // Test 5: Fetch mutations using POST
+            log('', 'info');
+            log('TEST 5: Fetching mutations using POST request...', 'info');
+            try {
+                const response = await fetch(
+                    `${API_BASE}/molecular-profiles/brca_tcga_mutations/mutations?projection=SUMMARY`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            sampleListId: 'brca_tcga_all'
+                        })
+                    }
+                );
+                log(`Response status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ SUCCESS: Found ${data.length} mutations`, 'success');
+                    
+                    // Count genes
+                    const geneCounts = {};
+                    data.forEach(m => {
+                        const gene = m.gene?.hugoGeneSymbol || 'Unknown';
+                        if (!geneCounts[gene]) geneCounts[gene] = new Set();
+                        geneCounts[gene].add(m.sampleId);
                     });
-
-                    mutationGenes = Object.entries(geneSampleCounts)
-                        .map(([gene, samples]) => ({
-                            gene,
-                            count: samples.size,
-                            frequency: ((samples.size / sampleCount) * 100).toFixed(1)
-                        }))
+                    
+                    const topGenes = Object.entries(geneCounts)
+                        .map(([gene, samples]) => ({ gene, count: samples.size }))
                         .sort((a, b) => b.count - a.count)
                         .slice(0, 10);
-
-                    console.log(`  Found ${mutationGenes.length} mutated genes`);
-                } catch (e) {
-                    console.warn(`  Could not fetch mutations: ${e.message}`);
-                }
-            }
-
-            // Step 5: Get CNA data
-            let cnaGenes = { amplifications: [], deletions: [] };
-            if (cnaProfile) {
-                try {
-                    const cnaData = await postJSON(
-                        `${API_BASE}/molecular-profiles/${cnaProfile.molecularProfileId}/discrete-copy-number?projection=SUMMARY&discreteCopyNumberEventType=ALL`,
-                        {
-                            sampleIds: sampleIds,
-                            sampleListId: `${studyId}_all`
-                        }
-                    );
-
-                    // Count amplifications and deletions per gene
-                    const ampCounts = {};
-                    const delCounts = {};
-
-                    cnaData.forEach(item => {
-                        const gene = item.gene.hugoGeneSymbol;
-                        if (item.alteration === 2) {
-                            if (!ampCounts[gene]) ampCounts[gene] = new Set();
-                            ampCounts[gene].add(item.sampleId);
-                        } else if (item.alteration === -2) {
-                            if (!delCounts[gene]) delCounts[gene] = new Set();
-                            delCounts[gene].add(item.sampleId);
-                        }
-                    });
-
-                    cnaGenes.amplifications = Object.entries(ampCounts)
-                        .map(([gene, samples]) => ({
-                            gene,
-                            count: samples.size,
-                            frequency: ((samples.size / sampleCount) * 100).toFixed(1)
-                        }))
-                        .sort((a, b) => b.count - a.count)
-                        .slice(0, 5);
-
-                    cnaGenes.deletions = Object.entries(delCounts)
-                        .map(([gene, samples]) => ({
-                            gene,
-                            count: samples.size,
-                            frequency: ((samples.size / sampleCount) * 100).toFixed(1)
-                        }))
-                        .sort((a, b) => b.count - a.count)
-                        .slice(0, 5);
-
-                    console.log(`  Found ${cnaGenes.amplifications.length} amps, ${cnaGenes.deletions.length} dels`);
-                } catch (e) {
-                    console.warn(`  Could not fetch CNA: ${e.message}`);
-                }
-            }
-
-            // Step 6: Get clinical data
-            const clinicalData = await fetchJSON(
-                `${API_BASE}/studies/${studyId}/clinical-data?clinicalDataType=PATIENT&projection=DETAILED`
-            );
-
-            const ages = [];
-            const sexCounts = { male: 0, female: 0 };
-            const tmbs = [];
-
-            clinicalData.forEach(item => {
-                const attrId = item.clinicalAttributeId.toUpperCase();
-                const value = item.value;
-
-                if (!value || value === 'NA' || value === '[Not Available]' || value === '[Not Applicable]') {
-                    return;
-                }
-
-                if (attrId === 'AGE' || attrId === 'AGE_AT_DIAGNOSIS' || attrId === 'DIAGNOSIS_AGE') {
-                    const age = parseFloat(value);
-                    if (!isNaN(age) && age > 0 && age < 120) {
-                        ages.push(age);
-                    }
-                }
-
-                if (attrId === 'SEX' || attrId === 'GENDER') {
-                    const sex = value.toUpperCase();
-                    if (sex === 'MALE' || sex === 'M') sexCounts.male++;
-                    if (sex === 'FEMALE' || sex === 'F') sexCounts.female++;
-                }
-
-                if (attrId === 'TMB_NONSYNONYMOUS' || attrId === 'MUTATION_COUNT' || attrId === 'TMB_SCORE') {
-                    const tmb = parseFloat(value);
-                    if (!isNaN(tmb) && tmb >= 0) {
-                        tmbs.push(tmb);
-                    }
-                }
-            });
-
-            const totalSex = sexCounts.male + sexCounts.female;
-
-            console.log(`  Clinical: ${ages.length} ages, ${totalSex} sex records, ${tmbs.length} TMBs`);
-
-            return {
-                studyId: study.id,
-                cancerType: study.name,
-                displayName: study.displayName,
-                sampleCount: sampleCount,
-                mutations: mutationGenes,
-                cnv: cnaGenes,
-                clinical: {
-                    medianAge: ages.length > 0 ? Math.round(median(ages)) : null,
-                    malePercent: totalSex > 0 ? Math.round((sexCounts.male / totalSex) * 100) : null,
-                    femalePercent: totalSex > 0 ? Math.round((sexCounts.female / totalSex) * 100) : null,
-                    medianTMB: tmbs.length > 0 ? Math.round(median(tmbs)) : null
-                }
-            };
-        }
-
-        function median(arr) {
-            if (arr.length === 0) return null;
-            const sorted = [...arr].sort((a, b) => a - b);
-            const mid = Math.floor(sorted.length / 2);
-            return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
-        }
-
-        // ============================================
-        // CACHE FUNCTIONS
-        // ============================================
-        function loadCache() {
-            try {
-                const cached = localStorage.getItem(CACHE_KEY);
-                if (cached) {
-                    const parsed = JSON.parse(cached);
-                    if (Date.now() - parsed.timestamp < CACHE_EXPIRY) {
-                        console.log('Loaded data from cache');
-                        return parsed.data;
-                    } else {
-                        console.log('Cache expired');
-                    }
+                    
+                    log(`Top 10 mutated genes:`, 'success');
+                    logData('Top genes', topGenes);
+                } else {
+                    const text = await response.text();
+                    log(`✗ FAILED: ${text}`, 'error');
                 }
             } catch (e) {
-                console.warn('Cache load failed:', e);
+                log(`✗ ERROR: ${e.message}`, 'error');
             }
-            return null;
-        }
 
-        function saveCache(data) {
+            // Test 6: Alternative - fetch mutations using GET with gene list
+            log('', 'info');
+            log('TEST 6: Alternative mutation fetch using genes endpoint...', 'info');
             try {
-                localStorage.setItem(CACHE_KEY, JSON.stringify({
-                    timestamp: Date.now(),
-                    data: data
-                }));
-                console.log('Saved data to cache');
-            } catch (e) {
-                console.warn('Cache save failed:', e);
-            }
-        }
-
-        function loadStats() {
-            try {
-                const stats = localStorage.getItem('oncowordle_stats');
-                if (stats) {
-                    gameState.stats = JSON.parse(stats);
-                }
-            } catch (e) {
-                console.warn('Stats load failed:', e);
-            }
-        }
-
-        function saveStats() {
-            try {
-                localStorage.setItem('oncowordle_stats', JSON.stringify(gameState.stats));
-            } catch (e) {
-                console.warn('Stats save failed:', e);
-            }
-        }
-
-        // ============================================
-        // UI FUNCTIONS
-        // ============================================
-        function updateStatsDisplay() {
-            elements.gamesPlayed.textContent = gameState.stats.played;
-            elements.gamesWon.textContent = gameState.stats.won;
-            elements.winRate.textContent = gameState.stats.played > 0 
-                ? Math.round((gameState.stats.won / gameState.stats.played) * 100) + '%'
-                : '0%';
-            elements.currentStreak.textContent = gameState.stats.streak;
-        }
-
-        function renderGameData(data) {
-            // Mutations
-            if (data.mutations && data.mutations.length > 0) {
-                elements.mutationList.innerHTML = data.mutations.map(m => `
-                    <li>
-                        <span class="gene">${m.gene}</span>
-                        <span class="freq">${m.frequency}%</span>
-                    </li>
-                `).join('');
-            } else {
-                elements.mutationList.innerHTML = '<li>No mutation data available</li>';
-            }
-
-            // CNVs
-            let cnvHtml = '';
-            if (data.cnv && data.cnv.amplifications && data.cnv.amplifications.length > 0) {
-                cnvHtml += data.cnv.amplifications.map(c => 
-                    `<span class="cnv-tag cnv-amp">↑ ${c.gene} (${c.frequency}%)</span>`
-                ).join('');
-            }
-            if (data.cnv && data.cnv.deletions && data.cnv.deletions.length > 0) {
-                cnvHtml += data.cnv.deletions.map(c => 
-                    `<span class="cnv-tag cnv-del">↓ ${c.gene} (${c.frequency}%)</span>`
-                ).join('');
-            }
-            elements.cnvList.innerHTML = cnvHtml || '<span class="cnv-tag">No CNV data available</span>';
-
-            // Clinical
-            elements.medianAge.textContent = data.clinical.medianAge 
-                ? `${data.clinical.medianAge} yrs` 
-                : 'N/A';
-            elements.tmb.textContent = data.clinical.medianTMB 
-                ? `${data.clinical.medianTMB}` 
-                : 'N/A';
-            elements.malePercent.textContent = data.clinical.malePercent !== null 
-                ? `${data.clinical.malePercent}%` 
-                : 'N/A';
-            elements.femalePercent.textContent = data.clinical.femalePercent !== null 
-                ? `${data.clinical.femalePercent}%` 
-                : 'N/A';
-
-            // Sample info
-            elements.sampleCount.textContent = data.sampleCount;
-            elements.studyName.textContent = 'TCGA';
-        }
-
-        function renderAttemptBoxes() {
-            let html = '';
-            for (let i = 0; i < MAX_ATTEMPTS; i++) {
-                let className = 'attempt-box';
-                let content = '';
-                
-                if (i < gameState.guesses.length) {
-                    if (gameState.guesses[i].correct) {
-                        className += ' correct';
-                        content = '✓';
-                    } else {
-                        className += ' wrong';
-                        content = '✗';
+                const response = await fetch(
+                    `${API_BASE}/molecular-profiles/brca_tcga_mutations/mutation-genes?projection=SUMMARY`,
+                    {
+                        headers: { 'Accept': 'application/json' }
                     }
-                }
-                
-                html += `<div class="${className}">${content}</div>`;
-            }
-            elements.attemptBoxes.innerHTML = html;
-        }
-
-        function renderGuessHistory() {
-            if (gameState.guesses.length === 0) {
-                elements.guessHistory.style.display = 'none';
-                return;
-            }
-
-            elements.guessHistory.style.display = 'block';
-            elements.historyList.innerHTML = gameState.guesses.map(g => `
-                <li class="${g.correct ? 'correct' : 'wrong'}">
-                    <span>${g.correct ? '✓' : '✗'}</span>
-                    <span>${g.guess}</span>
-                </li>
-            `).join('');
-        }
-
-        function showError(message) {
-            elements.errorContainer.innerHTML = `
-                <div class="error-message">
-                    ${message}
-                    <br><br>
-                    <button class="btn btn-primary" onclick="clearCacheAndReload()">Clear Cache & Retry</button>
-                </div>
-            `;
-        }
-
-        function clearCacheAndReload() {
-            localStorage.removeItem(CACHE_KEY);
-            location.reload();
-        }
-
-        function showResult(won) {
-            elements.modalContent.className = `modal-content ${won ? 'win' : 'lose'}`;
-            elements.resultTitle.textContent = won ? '🎉 Correct!' : '😔 Game Over';
-            elements.resultMessage.textContent = won 
-                ? `You got it in ${gameState.attempts} ${gameState.attempts === 1 ? 'try' : 'tries'}!`
-                : 'Better luck next time!';
-            elements.correctAnswer.textContent = gameState.currentData.displayName;
-            elements.resultModal.classList.add('show');
-        }
-
-        // ============================================
-        // AUTOCOMPLETE
-        // ============================================
-        function setupAutocomplete() {
-            const input = elements.guessInput;
-            const list = elements.autocompleteList;
-            let selectedIndex = -1;
-
-            const cancerNames = CANCER_STUDIES.map(s => s.displayName);
-
-            input.addEventListener('input', () => {
-                const value = input.value.toLowerCase().trim();
-                selectedIndex = -1;
-
-                if (value.length < 1) {
-                    list.classList.remove('show');
-                    return;
-                }
-
-                const matches = cancerNames.filter(name => 
-                    name.toLowerCase().includes(value)
                 );
-
-                if (matches.length === 0) {
-                    list.classList.remove('show');
-                    return;
-                }
-
-                list.innerHTML = matches.map((name, i) => `
-                    <div class="autocomplete-item" data-value="${name}">${name}</div>
-                `).join('');
-                list.classList.add('show');
-
-                list.querySelectorAll('.autocomplete-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        input.value = item.dataset.value;
-                        list.classList.remove('show');
-                    });
-                });
-            });
-
-            input.addEventListener('keydown', (e) => {
-                const items = list.querySelectorAll('.autocomplete-item');
+                log(`Response status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
                 
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
-                    updateSelection(items);
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    selectedIndex = Math.max(selectedIndex - 1, -1);
-                    updateSelection(items);
-                } else if (e.key === 'Enter') {
-                    if (selectedIndex >= 0 && items[selectedIndex]) {
-                        input.value = items[selectedIndex].dataset.value;
-                        list.classList.remove('show');
-                        e.preventDefault();
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ SUCCESS: Found ${data.length} mutated genes`, 'success');
+                    logData('Top 10 genes', data.slice(0, 10));
+                } else {
+                    const text = await response.text();
+                    log(`✗ FAILED: ${text}`, 'error');
+                }
+            } catch (e) {
+                log(`✗ ERROR: ${e.message}`, 'error');
+            }
+
+            // Test 7: Clinical data
+            log('', 'info');
+            log('TEST 7: Fetching clinical data...', 'info');
+            try {
+                const response = await fetch(
+                    `${API_BASE}/studies/brca_tcga/clinical-data?clinicalDataType=PATIENT&projection=DETAILED`,
+                    {
+                        headers: { 'Accept': 'application/json' }
                     }
-                } else if (e.key === 'Escape') {
-                    list.classList.remove('show');
-                }
-            });
-
-            function updateSelection(items) {
-                items.forEach((item, i) => {
-                    item.classList.toggle('selected', i === selectedIndex);
-                });
-                if (selectedIndex >= 0 && items[selectedIndex]) {
-                    items[selectedIndex].scrollIntoView({ block: 'nearest' });
-                }
-            }
-
-            document.addEventListener('click', (e) => {
-                if (!input.contains(e.target) && !list.contains(e.target)) {
-                    list.classList.remove('show');
-                }
-            });
-        }
-
-        // ============================================
-        // GAME LOGIC
-        // ============================================
-        function submitGuess() {
-            if (gameState.gameOver) return;
-
-            const guess = elements.guessInput.value.trim();
-            if (!guess) return;
-
-            const validCancer = CANCER_STUDIES.find(s => 
-                s.displayName.toLowerCase() === guess.toLowerCase()
-            );
-
-            if (!validCancer) {
-                elements.guessInput.style.borderColor = '#ff6b6b';
-                setTimeout(() => {
-                    elements.guessInput.style.borderColor = '';
-                }, 500);
-                return;
-            }
-
-            if (gameState.guesses.some(g => g.guess.toLowerCase() === guess.toLowerCase())) {
-                return;
-            }
-
-            gameState.attempts++;
-            const correct = validCancer.displayName === gameState.currentData.displayName;
-            
-            gameState.guesses.push({
-                guess: validCancer.displayName,
-                correct: correct
-            });
-
-            elements.guessInput.value = '';
-            elements.autocompleteList.classList.remove('show');
-
-            renderAttemptBoxes();
-            renderGuessHistory();
-
-            if (correct) {
-                gameState.gameOver = true;
-                gameState.stats.played++;
-                gameState.stats.won++;
-                gameState.stats.streak++;
-                saveStats();
-                updateStatsDisplay();
-                setTimeout(() => showResult(true), 500);
-            } else if (gameState.attempts >= MAX_ATTEMPTS) {
-                gameState.gameOver = true;
-                gameState.stats.played++;
-                gameState.stats.streak = 0;
-                saveStats();
-                updateStatsDisplay();
-                setTimeout(() => showResult(false), 500);
-            }
-        }
-
-        function startNewGame() {
-            const studyIds = Object.keys(cachedData);
-            
-            // Filter to only studies with mutation data
-            const validStudyIds = studyIds.filter(id => 
-                cachedData[id].mutations && cachedData[id].mutations.length > 0
-            );
-
-            if (validStudyIds.length === 0) {
-                showError('No studies with valid mutation data found. Please try clearing cache and reloading.');
-                return;
-            }
-
-            const randomId = validStudyIds[Math.floor(Math.random() * validStudyIds.length)];
-            
-            gameState.currentStudy = CANCER_STUDIES.find(s => s.id === randomId);
-            gameState.currentData = cachedData[randomId];
-            gameState.attempts = 0;
-            gameState.guesses = [];
-            gameState.gameOver = false;
-
-            elements.guessInput.value = '';
-            elements.guessInput.disabled = false;
-            elements.submitBtn.disabled = false;
-            elements.resultModal.classList.remove('show');
-
-            renderGameData(gameState.currentData);
-            renderAttemptBoxes();
-            renderGuessHistory();
-
-            console.log('New game started:', gameState.currentData.displayName);
-        }
-
-        // ============================================
-        // INITIALIZATION
-        // ============================================
-        async function initialize() {
-            loadStats();
-            updateStatsDisplay();
-
-            // Try loading from cache first
-            const cached = loadCache();
-            if (cached && Object.keys(cached).length >= 5) {
-                cachedData = cached;
-                elements.loadingScreen.classList.add('hidden');
-                setupAutocomplete();
-                startNewGame();
-                return;
-            }
-
-            // Fetch all study data
-            let successCount = 0;
-            const totalStudies = CANCER_STUDIES.length;
-
-            for (let i = 0; i < CANCER_STUDIES.length; i++) {
-                const study = CANCER_STUDIES[i];
-                const progress = ((i + 1) / totalStudies) * 100;
-                elements.loadingText.textContent = `Loading ${study.displayName}... (${i + 1}/${totalStudies})`;
-                elements.progressFill.style.width = `${progress}%`;
+                );
+                log(`Response status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
                 
-                try {
-                    const data = await fetchStudyData(study);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✓ SUCCESS: Found ${data.length} clinical data points`, 'success');
                     
-                    // Only save if we got some useful data
-                    if (data.mutations.length > 0 || data.cnv.amplifications.length > 0) {
-                        cachedData[study.id] = data;
-                        successCount++;
-                    } else {
-                        console.warn(`Skipping ${study.id} - no mutation/CNV data`);
-                    }
-                    
-                    // Delay to avoid rate limiting
-                    await new Promise(r => setTimeout(r, 500));
-                } catch (error) {
-                    console.error(`Failed to load ${study.name}:`, error);
+                    // Get unique attributes
+                    const attrs = [...new Set(data.map(d => d.clinicalAttributeId))];
+                    log(`Available clinical attributes: ${attrs.length}`, 'info');
+                    logData('Attributes', attrs);
+                } else {
+                    const text = await response.text();
+                    log(`✗ FAILED: ${text}`, 'error');
                 }
+            } catch (e) {
+                log(`✗ ERROR: ${e.message}`, 'error');
             }
 
-            console.log(`Successfully loaded ${successCount} of ${totalStudies} studies`);
-
-            if (successCount < 3) {
-                showError(`Only loaded ${successCount} cancer types. cBioPortal may be experiencing issues. Please try again later.`);
-                elements.loadingScreen.classList.add('hidden');
-                return;
-            }
-
-            // Save to cache
-            saveCache(cachedData);
-
-            elements.loadingScreen.classList.add('hidden');
-            setupAutocomplete();
-            startNewGame();
+            log('', 'info');
+            log('=== TESTS COMPLETE ===', 'info');
+            log('Please share the results above so I can diagnose the issue.', 'info');
         }
-
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
-        elements.submitBtn.addEventListener('click', submitGuess);
-        
-        elements.guessInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const list = elements.autocompleteList;
-                if (!list.classList.contains('show') || !list.querySelector('.selected')) {
-                    submitGuess();
-                }
-            }
-        });
-        
-        elements.skipBtn.addEventListener('click', () => {
-            if (!gameState.gameOver) {
-                gameState.stats.played++;
-                gameState.stats.streak = 0;
-                saveStats();
-                updateStatsDisplay();
-            }
-            startNewGame();
-        });
-        
-        elements.playAgainBtn.addEventListener('click', startNewGame);
-
-        // Make clearCacheAndReload available globally
-        window.clearCacheAndReload = clearCacheAndReload;
-
-        // Start the game
-        initialize();
     </script>
 </body>
 </html>
