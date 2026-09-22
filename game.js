@@ -98,9 +98,14 @@
       clinicalList.appendChild(li);
     });
     
-    // Histology
+    // Histology - generic caption during gameplay
     histologyImg.src = data.histology;
-    histologyImg.alt = `Histology of ${currentCancer}`;
+    histologyImg.alt = 'Tumor histology';
+    histologyCaption.innerHTML = '<strong>Fig. 1 |</strong> Tumor histology (H&E stain)';
+  }
+
+  // Reveal the cancer type in caption
+  function revealHistologyCaption() {
     histologyCaption.innerHTML = `<strong>Fig. 1 |</strong> Histology of ${currentCancer}`;
   }
 
@@ -188,6 +193,9 @@
     gameOver = true;
     guessInput.disabled = true;
     submitBtn.disabled = true;
+    
+    // Reveal the cancer type in histology caption
+    revealHistologyCaption();
     
     if (won) {
       gameResult.textContent = `Correct! The answer was ${currentCancer}. You got it in ${guesses.length} ${guesses.length === 1 ? 'guess' : 'guesses'}.`;
