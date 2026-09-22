@@ -13,48 +13,48 @@
       <h1>OncoWordle</h1>
     </header>
     
-    <hr class="divider">
-    
     <div class="game-area">
-      <div class="guess-input-container">
-        <input type="text" id="guess-input" placeholder="Enter cancer type..." autocomplete="off">
-        <div id="autocomplete-list" class="autocomplete-list"></div>
+      <div class="input-row">
+        <div class="guess-input-container">
+          <input type="text" id="guess-input" placeholder="Enter cancer type..." autocomplete="off">
+          <div id="autocomplete-list" class="autocomplete-list"></div>
+        </div>
+        <button id="submit-btn">Submit</button>
       </div>
-      <button id="submit-btn">Submit Guess</button>
       <p class="attempts-remaining">Attempts remaining: <span id="attempts">6</span></p>
     </div>
     
     <hr class="divider">
     
-    <div class="profile-container">
-      <div class="left-column">
-        <section class="mutations">
-          <h2>Top Mutated Genes</h2>
-          <ul id="mutations-list"></ul>
-        </section>
-        
-        <section class="amplifications">
-          <h2>Amplifications</h2>
-          <ul id="amplifications-list"></ul>
-        </section>
-        
-        <section class="deletions">
-          <h2>Deletions</h2>
-          <ul id="deletions-list"></ul>
-        </section>
+    <section class="profile-section">
+      <h2>Top Mutated Genes</h2>
+      <div class="tag-container" id="mutations-container"></div>
+    </section>
+    
+    <section class="profile-section">
+      <h2>Copy Number Alterations</h2>
+      <div class="cnv-grid">
+        <div class="cnv-column">
+          <h3>Amplifications</h3>
+          <div class="tag-container" id="amplifications-container"></div>
+        </div>
+        <div class="cnv-column">
+          <h3>Deletions</h3>
+          <div class="tag-container" id="deletions-container"></div>
+        </div>
       </div>
+    </section>
+    
+    <div class="bottom-row">
+      <section class="clinical-box">
+        <h2>Clinical Characteristics</h2>
+        <ul id="clinical-list"></ul>
+      </section>
       
-      <div class="right-column">
-        <section class="clinical">
-          <h2>Clinical Characteristics</h2>
-          <ul id="clinical-list"></ul>
-        </section>
-        
-        <figure class="histology">
-          <img id="histology-img" src="" alt="Histology image">
-          <figcaption id="histology-caption"></figcaption>
-        </figure>
-      </div>
+      <figure class="histology-box">
+        <img id="histology-img" src="" alt="Histology image">
+        <figcaption id="histology-caption"></figcaption>
+      </figure>
     </div>
     
     <hr class="divider">
