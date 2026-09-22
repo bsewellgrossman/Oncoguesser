@@ -10,9 +10,9 @@
   const autocompleteList = document.getElementById('autocomplete-list');
   const submitBtn = document.getElementById('submit-btn');
   const attemptsSpan = document.getElementById('attempts');
-  const mutationsList = document.getElementById('mutations-list');
-  const amplificationsList = document.getElementById('amplifications-list');
-  const deletionsList = document.getElementById('deletions-list');
+  const mutationsContainer = document.getElementById('mutations-container');
+  const amplificationsContainer = document.getElementById('amplifications-container');
+  const deletionsContainer = document.getElementById('deletions-container');
   const clinicalList = document.getElementById('clinical-list');
   const histologyImg = document.getElementById('histology-img');
   const histologyCaption = document.getElementById('histology-caption');
@@ -39,32 +39,45 @@
     submitBtn.disabled = false;
   }
 
+  // Create a tag element
+  function createTag(gene, freq, type) {
+    const tag = document.createElement('span');
+    tag.className = `tag ${type}`;
+    
+    const bar = document.createElement('span');
+    bar.className = 'tag-bar';
+    bar.style.width = `${Math.min(freq, 100)}%`;
+    
+    const text = document.createElement('span');
+    text.className = 'tag-text';
+    text.textContent = `${gene} (${freq}%)`;
+    
+    tag.appendChild(bar);
+    tag.appendChild(text);
+    
+    return tag;
+  }
+
   // Render genomic profile
   function renderProfile() {
     const data = CANCER_DATA[currentCancer];
     
     // Mutations
-    mutationsList.innerHTML = '';
+    mutationsContainer.innerHTML = '';
     data.mutations.forEach(m => {
-      const li = document.createElement('li');
-      li.textContent = `${m.gene} (${m.freq}%)`;
-      mutationsList.appendChild(li);
+      mutationsContainer.appendChild(createTag(m.gene, m.freq, 'mutation'));
     });
     
     // Amplifications
-    amplificationsList.innerHTML = '';
+    amplificationsContainer.innerHTML = '';
     data.amplifications.forEach(a => {
-      const li = document.createElement('li');
-      li.textContent = `${a.gene} (${a.freq}%)`;
-      amplificationsList.appendChild(li);
+      amplificationsContainer.appendChild(createTag(a.gene, a.freq, 'amplification'));
     });
     
     // Deletions
-    deletionsList.innerHTML = '';
+    deletionsContainer.innerHTML = '';
     data.deletions.forEach(d => {
-      const li = document.createElement('li');
-      li.textContent = `${d.gene} (${d.freq}%)`;
-      deletionsList.appendChild(li);
+      deletionsContainer.appendChild(createTag(d.gene, d.freq, 'deletion'));
     });
     
     // Clinical
