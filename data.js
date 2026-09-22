@@ -1,4 +1,4 @@
-// data.js - Updated with correct Wikimedia Commons thumbnail URLs
+// data.js - Using Wikipedia API-style thumbnail URLs
 
 const CANCER_DATA = {
     "Breast Invasive Carcinoma": {
@@ -20,7 +20,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 1, female: 99, medianAge: 58, tmb: 2.6, survival5yr: 90 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Invasive_ductal_carcinoma_of_the_breast.jpg/250px-Invasive_ductal_carcinoma_of_the_breast.jpg",
+            url: "https://librepathology.org/w/images/thumb/c/c7/Breast_carcinoma_-_intermed_mag.jpg/300px-Breast_carcinoma_-_intermed_mag.jpg",
             caption: "Invasive ductal carcinoma showing irregular nests of malignant cells"
         }
     },
@@ -43,7 +43,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 53, female: 47, medianAge: 65, tmb: 8.1, survival5yr: 22 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Lung_adenocarcinoma_%281%29_HE_stain.jpg/250px-Lung_adenocarcinoma_%281%29_HE_stain.jpg",
+            url: "https://librepathology.org/w/images/thumb/a/a9/Lung_adenocarcinoma_-_cytology_-_high_mag.jpg/300px-Lung_adenocarcinoma_-_cytology_-_high_mag.jpg",
             caption: "Lung adenocarcinoma with glandular/acinar growth pattern"
         }
     },
@@ -66,7 +66,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 74, female: 26, medianAge: 68, tmb: 11.4, survival5yr: 20 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Squamous_cell_carcinoma_of_the_lung.jpg/250px-Squamous_cell_carcinoma_of_the_lung.jpg",
+            url: "https://librepathology.org/w/images/thumb/b/b5/Squamous_cell_carcinoma_of_the_lung_-_high_mag.jpg/300px-Squamous_cell_carcinoma_of_the_lung_-_high_mag.jpg",
             caption: "Squamous cell carcinoma with keratinization and intercellular bridges"
         }
     },
@@ -89,7 +89,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 53, female: 47, medianAge: 66, tmb: 5.8, survival5yr: 65 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Colon_cancer_2.jpg/250px-Colon_cancer_2.jpg",
+            url: "https://librepathology.org/w/images/thumb/e/e3/Colorectal_adenocarcinoma_-_intermed_mag.jpg/300px-Colorectal_adenocarcinoma_-_intermed_mag.jpg",
             caption: "Colorectal adenocarcinoma with irregular glandular structures"
         }
     },
@@ -112,7 +112,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 100, female: 0, medianAge: 61, tmb: 1.1, survival5yr: 98 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Prostate_adenocarcinoma_%282%29.jpg/250px-Prostate_adenocarcinoma_%282%29.jpg",
+            url: "https://librepathology.org/w/images/thumb/8/82/Prostatic_adenocarcinoma_-_intermed_mag.jpg/300px-Prostatic_adenocarcinoma_-_intermed_mag.jpg",
             caption: "Prostatic adenocarcinoma with small acinar pattern (Gleason)"
         }
     },
@@ -135,7 +135,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 62, female: 38, medianAge: 58, tmb: 18.2, survival5yr: 93 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Melanoma.jpg/250px-Melanoma.jpg",
+            url: "https://librepathology.org/w/images/thumb/6/6e/Malignant_melanoma_-_high_mag.jpg/300px-Malignant_melanoma_-_high_mag.jpg",
             caption: "Cutaneous melanoma with atypical melanocytes and pigmentation"
         }
     },
@@ -158,7 +158,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 0, female: 100, medianAge: 59, tmb: 3.5, survival5yr: 47 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Serous_carcinoma_cytology.jpg/250px-Serous_carcinoma_cytology.jpg",
+            url: "https://librepathology.org/w/images/thumb/4/49/High-grade_serous_carcinoma_-_high_mag.jpg/300px-High-grade_serous_carcinoma_-_high_mag.jpg",
             caption: "High-grade serous ovarian carcinoma with papillary architecture"
         }
     },
@@ -181,7 +181,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 59, female: 41, medianAge: 59, tmb: 2.8, survival5yr: 5 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Glioblastoma_%281%29.jpg/250px-Glioblastoma_%281%29.jpg",
+            url: "https://librepathology.org/w/images/thumb/4/4c/Glioblastoma_-_high_mag.jpg/300px-Glioblastoma_-_high_mag.jpg",
             caption: "Glioblastoma with pseudopalisading necrosis and microvascular proliferation"
         }
     },
@@ -204,7 +204,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 73, female: 27, medianAge: 61, tmb: 6.2, survival5yr: 66 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Oral_cancer_%281%29_HPV_negative.jpg/250px-Oral_cancer_%281%29_HPV_negative.jpg",
+            url: "https://librepathology.org/w/images/thumb/a/a3/Squamous_cell_carcinoma_-_oral_-_intermed_mag.jpg/300px-Squamous_cell_carcinoma_-_oral_-_intermed_mag.jpg",
             caption: "Head and neck SCC with invasive islands of squamous epithelium"
         }
     },
@@ -227,7 +227,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 65, female: 35, medianAge: 60, tmb: 1.4, survival5yr: 74 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Clear_cell_renal_cell_carcinoma_high_mag.jpg/250px-Clear_cell_renal_cell_carcinoma_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/5/59/Clear_cell_renal_cell_carcinoma_-_high_mag.jpg/300px-Clear_cell_renal_cell_carcinoma_-_high_mag.jpg",
             caption: "Clear cell RCC with clear cytoplasm and delicate vasculature"
         }
     },
@@ -250,7 +250,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 68, female: 32, medianAge: 61, tmb: 4.1, survival5yr: 20 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Hepatocellular_carcinoma_1.jpg/250px-Hepatocellular_carcinoma_1.jpg",
+            url: "https://librepathology.org/w/images/thumb/2/2e/Hepatocellular_carcinoma_-_high_mag.jpg/300px-Hepatocellular_carcinoma_-_high_mag.jpg",
             caption: "Hepatocellular carcinoma with trabecular pattern and bile production"
         }
     },
@@ -273,7 +273,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 65, female: 35, medianAge: 66, tmb: 5.2, survival5yr: 32 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Adenocarcinoma_of_the_stomach.jpg/250px-Adenocarcinoma_of_the_stomach.jpg",
+            url: "https://librepathology.org/w/images/thumb/7/7a/Gastric_adenocarcinoma_-_intermed_mag.jpg/300px-Gastric_adenocarcinoma_-_intermed_mag.jpg",
             caption: "Gastric adenocarcinoma with signet ring cells and glandular differentiation"
         }
     },
@@ -296,7 +296,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 74, female: 26, medianAge: 69, tmb: 8.6, survival5yr: 77 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Urothelial_carcinoma_of_the_urinary_bladder_-_high_magnification.jpg/250px-Urothelial_carcinoma_of_the_urinary_bladder_-_high_magnification.jpg",
+            url: "https://librepathology.org/w/images/thumb/f/f1/Urothelial_carcinoma_-_high_mag.jpg/300px-Urothelial_carcinoma_-_high_mag.jpg",
             caption: "High-grade urothelial carcinoma with nuclear pleomorphism"
         }
     },
@@ -319,7 +319,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 0, female: 100, medianAge: 64, tmb: 6.4, survival5yr: 81 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Endometrioid_endometrial_adenocarcinoma_low_mag.jpg/250px-Endometrioid_endometrial_adenocarcinoma_low_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/e/e8/Endometrioid_adenocarcinoma_-_low_mag.jpg/300px-Endometrioid_adenocarcinoma_-_low_mag.jpg",
             caption: "Endometrioid adenocarcinoma with back-to-back glands"
         }
     },
@@ -342,7 +342,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 56, female: 44, medianAge: 65, tmb: 1.8, survival5yr: 10 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Adenocarcinoma_of_the_pancreas.jpg/250px-Adenocarcinoma_of_the_pancreas.jpg",
+            url: "https://librepathology.org/w/images/thumb/e/e5/Pancreatic_ductal_adenocarcinoma_-_intermed_mag.jpg/300px-Pancreatic_ductal_adenocarcinoma_-_intermed_mag.jpg",
             caption: "Pancreatic ductal adenocarcinoma with desmoplastic stroma"
         }
     },
@@ -365,7 +365,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 27, female: 73, medianAge: 46, tmb: 0.5, survival5yr: 98 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Papillary_thyroid_carcinoma_tall_cell_var_high_mag.jpg/250px-Papillary_thyroid_carcinoma_tall_cell_var_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/c/c1/Papillary_thyroid_carcinoma_-_high_mag.jpg/300px-Papillary_thyroid_carcinoma_-_high_mag.jpg",
             caption: "Papillary thyroid carcinoma with nuclear grooves and pseudoinclusions"
         }
     },
@@ -388,7 +388,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 0, female: 100, medianAge: 46, tmb: 5.1, survival5yr: 66 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Cervical_squamous_cell_carcinoma_intermed_mag.jpg/250px-Cervical_squamous_cell_carcinoma_intermed_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/c/c8/Cervical_squamous_cell_carcinoma_-_intermed_mag.jpg/300px-Cervical_squamous_cell_carcinoma_-_intermed_mag.jpg",
             caption: "Cervical SCC with invasive squamous epithelium and keratin pearls"
         }
     },
@@ -411,7 +411,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 49, female: 51, medianAge: 61, tmb: 2.3, survival5yr: 55 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Osteosarcoma_-_high_mag.jpg/250px-Osteosarcoma_-_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/d/d3/Leiomyosarcoma_-_high_mag.jpg/300px-Leiomyosarcoma_-_high_mag.jpg",
             caption: "Sarcoma with pleomorphic spindle cells and mitotic figures"
         }
     },
@@ -434,7 +434,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 54, female: 46, medianAge: 41, tmb: 1.2, survival5yr: 72 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Oligodendroglioma_high_mag.jpg/250px-Oligodendroglioma_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/5/5e/Oligodendroglioma_-_high_mag.jpg/300px-Oligodendroglioma_-_high_mag.jpg",
             caption: "Low grade glioma with uniform round nuclei and perinuclear halos"
         }
     },
@@ -457,7 +457,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 100, female: 0, medianAge: 31, tmb: 0.4, survival5yr: 95 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Seminoma_high_mag.jpg/250px-Seminoma_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/7/72/Seminoma_-_high_mag.jpg/300px-Seminoma_-_high_mag.jpg",
             caption: "Seminoma with clear cells, distinct borders, and lymphocytic infiltrate"
         }
     },
@@ -480,7 +480,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 82, female: 18, medianAge: 62, tmb: 6.8, survival5yr: 20 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Esophageal_adenocarcinoma_%281%29.jpg/250px-Esophageal_adenocarcinoma_%281%29.jpg",
+            url: "https://librepathology.org/w/images/thumb/9/91/Esophageal_adenocarcinoma_-_intermed_mag.jpg/300px-Esophageal_adenocarcinoma_-_intermed_mag.jpg",
             caption: "Esophageal carcinoma with invasive glands or squamous nests"
         }
     },
@@ -503,7 +503,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 73, female: 27, medianAge: 61, tmb: 1.3, survival5yr: 91 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Papillary_renal_cell_carcinoma_-_very_high_mag.jpg/250px-Papillary_renal_cell_carcinoma_-_very_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/1/1b/Papillary_renal_cell_carcinoma_-_high_mag.jpg/300px-Papillary_renal_cell_carcinoma_-_high_mag.jpg",
             caption: "Papillary RCC with papillary architecture and foamy macrophages"
         }
     },
@@ -526,7 +526,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 57, female: 43, medianAge: 65, tmb: 2.1, survival5yr: 10 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Cholangiocarcinoma_-_high_mag.jpg/250px-Cholangiocarcinoma_-_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/5/59/Cholangiocarcinoma_-_intermed_mag.jpg/300px-Cholangiocarcinoma_-_intermed_mag.jpg",
             caption: "Cholangiocarcinoma with irregular glands in desmoplastic stroma"
         }
     },
@@ -549,7 +549,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 41, female: 59, medianAge: 48, tmb: 2.4, survival5yr: 35 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Adrenal_cortical_carcinoma_-_high_mag.jpg/250px-Adrenal_cortical_carcinoma_-_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/8/8a/Adrenal_cortical_carcinoma_-_intermed_mag.jpg/300px-Adrenal_cortical_carcinoma_-_intermed_mag.jpg",
             caption: "Adrenocortical carcinoma with pleomorphic cells and high mitotic rate"
         }
     },
@@ -572,7 +572,7 @@ const CANCER_DATA = {
         },
         clinical: { male: 43, female: 57, medianAge: 46, tmb: 0.6, survival5yr: 85 },
         histology: {
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Pheochromocytoma_high_mag.jpg/250px-Pheochromocytoma_high_mag.jpg",
+            url: "https://librepathology.org/w/images/thumb/a/a1/Pheochromocytoma_-_high_mag.jpg/300px-Pheochromocytoma_-_high_mag.jpg",
             caption: "Pheochromocytoma with Zellballen pattern and granular cytoplasm"
         }
     }
