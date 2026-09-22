@@ -1,47 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OncoWordle - Cancer Genomics Guessing Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OncoWordle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🧬 OncoWordle</h1>
-            <p class="subtitle">Guess the cancer type from its genomic profile</p>
-        </header>
-
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="number" id="gamesPlayed">0</div>
-                <div class="label">Played</div>
-            </div>
-            <div class="stat-item">
-                <div class="number" id="gamesWon">0</div>
-                <div class="label">Won</div>
-            </div>
-            <div class="stat-item">
-                <div class="number" id="winPercent">0%</div>
-                <div class="label">Win %</div>
-            </div>
-            <div class="stat-item">
-                <div class="number" id="currentStreak">0</div>
-                <div class="label">Streak</div>
-            </div>
-        </div>
-
-        <div id="gameContent">
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <p>Loading genomic profile...</p>
-            </div>
-        </div>
+  <div class="container">
+    <header>
+      <h1>OncoWordle</h1>
+    </header>
+    
+    <hr class="divider">
+    
+    <div class="game-area">
+      <div class="guess-input-container">
+        <input type="text" id="guess-input" placeholder="Enter cancer type..." autocomplete="off">
+        <div id="autocomplete-list" class="autocomplete-list"></div>
+      </div>
+      <button id="submit-btn">Submit Guess</button>
+      <p class="attempts-remaining">Attempts remaining: <span id="attempts">6</span></p>
     </div>
-
-    <!-- Load scripts in order: data first, then game logic -->
-    <script src="data.js"></script>
-    <script src="game.js"></script>
+    
+    <hr class="divider">
+    
+    <div class="profile-container">
+      <div class="left-column">
+        <section class="mutations">
+          <h2>Top Mutated Genes</h2>
+          <ul id="mutations-list"></ul>
+        </section>
+        
+        <section class="amplifications">
+          <h2>Amplifications</h2>
+          <ul id="amplifications-list"></ul>
+        </section>
+        
+        <section class="deletions">
+          <h2>Deletions</h2>
+          <ul id="deletions-list"></ul>
+        </section>
+      </div>
+      
+      <div class="right-column">
+        <section class="clinical">
+          <h2>Clinical Characteristics</h2>
+          <ul id="clinical-list"></ul>
+        </section>
+        
+        <figure class="histology">
+          <img id="histology-img" src="" alt="Histology image">
+          <figcaption id="histology-caption"></figcaption>
+        </figure>
+      </div>
+    </div>
+    
+    <hr class="divider">
+    
+    <section class="guess-history">
+      <h2>Previous Guesses</h2>
+      <ol id="guess-list"></ol>
+    </section>
+    
+    <div id="game-result" class="game-result"></div>
+    
+    <button id="new-game-btn" class="new-game-btn hidden">New Game</button>
+  </div>
+  
+  <script src="data.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
