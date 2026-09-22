@@ -33,7 +33,7 @@ const CANCER_DATA = {
       tmb: 1.5,
       survival5yr: 90
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Invasive_ductal_carcinoma_of_the_breast.jpg/512px-Invasive_ductal_carcinoma_of_the_breast.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/breastmalignantidcintro1.jpg"
   },
   
   "Lung Adenocarcinoma": {
@@ -70,7 +70,7 @@ const CANCER_DATA = {
       tmb: 8.1,
       survival5yr: 22
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Lung_adenocarcinoma_%281%29_HE_stain.jpg/512px-Lung_adenocarcinoma_%281%29_HE_stain.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/lungtumoradenocarcinoma01.jpg"
   },
   
   "Lung Squamous Cell Carcinoma": {
@@ -107,7 +107,7 @@ const CANCER_DATA = {
       tmb: 10.2,
       survival5yr: 18
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Squamous_cell_carcinoma_of_the_lung.jpg/512px-Squamous_cell_carcinoma_of_the_lung.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/lungtumorSCC1.jpg"
   },
   
   "Colorectal Adenocarcinoma": {
@@ -144,7 +144,7 @@ const CANCER_DATA = {
       tmb: 4.5,
       survival5yr: 65
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Colon_cancer_2.jpg/512px-Colon_cancer_2.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/colontumoradenocarcinoma1.jpg"
   },
   
   "Prostate Adenocarcinoma": {
@@ -181,7 +181,7 @@ const CANCER_DATA = {
       tmb: 1.0,
       survival5yr: 98
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Prostate_adenocarcinoma_%282%29.jpg/512px-Prostate_adenocarcinoma_%282%29.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/prostateadenocarcinoma1.jpg"
   },
   
   "Cutaneous Melanoma": {
@@ -218,7 +218,7 @@ const CANCER_DATA = {
       tmb: 18.0,
       survival5yr: 93
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Melanoma_HE_stain.jpg/512px-Melanoma_HE_stain.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/skintumormelanocyticmelanoma1.jpg"
   },
   
   "Ovarian Serous Carcinoma": {
@@ -255,7 +255,7 @@ const CANCER_DATA = {
       tmb: 2.5,
       survival5yr: 47
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Serous_carcinoma_2a_-_cytology.jpg/512px-Serous_carcinoma_2a_-_cytology.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/ovarytumorserousHG1.jpg"
   },
   
   "Glioblastoma Multiforme": {
@@ -292,7 +292,7 @@ const CANCER_DATA = {
       tmb: 2.0,
       survival5yr: 5
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Glioblastoma_multiforme_%281%29.jpg/512px-Glioblastoma_multiforme_%281%29.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/cnstumorglioblastoma1.jpg"
   },
   
   "Head and Neck Squamous Cell Carcinoma": {
@@ -329,7 +329,7 @@ const CANCER_DATA = {
       tmb: 5.0,
       survival5yr: 50
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Squamous_Cell_Carcinoma.jpg/512px-Squamous_Cell_Carcinoma.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/larynxSCC1.jpg"
   },
   
   "Kidney Clear Cell Carcinoma": {
@@ -366,7 +366,7 @@ const CANCER_DATA = {
       tmb: 1.5,
       survival5yr: 74
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Clear_cell_renal_cell_carcinoma_high_mag.jpg/512px-Clear_cell_renal_cell_carcinoma_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/kidneytumorclearcell1.jpg"
   },
   
   "Hepatocellular Carcinoma": {
@@ -403,7 +403,7 @@ const CANCER_DATA = {
       tmb: 4.0,
       survival5yr: 20
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Hepatocellular_carcinoma_1.jpg/512px-Hepatocellular_carcinoma_1.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/livertumorHCC1.jpg"
   },
   
   "Stomach Adenocarcinoma": {
@@ -440,7 +440,7 @@ const CANCER_DATA = {
       tmb: 3.5,
       survival5yr: 32
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Gastric_adenocarcinoma.jpg/512px-Gastric_adenocarcinoma.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/stomachadenocarcinoma1.jpg"
   },
   
   "Bladder Urothelial Carcinoma": {
@@ -477,7 +477,7 @@ const CANCER_DATA = {
       tmb: 7.0,
       survival5yr: 77
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Urothelial_carcinoma_high_grade.jpg/512px-Urothelial_carcinoma_high_grade.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/bladderHGUC1.jpg"
   },
   
   "Endometrial Carcinoma": {
@@ -514,7 +514,7 @@ const CANCER_DATA = {
       tmb: 3.0,
       survival5yr: 81
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Endometrial_adenocarcinoma_%282%29.jpg/512px-Endometrial_adenocarcinoma_%282%29.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/uterusendometrioid1.jpg"
   },
   
   "Pancreatic Ductal Adenocarcinoma": {
@@ -551,7 +551,7 @@ const CANCER_DATA = {
       tmb: 1.5,
       survival5yr: 11
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Pancreatic_adenocarcinoma_-_2_-_very_high_mag.jpg/512px-Pancreatic_adenocarcinoma_-_2_-_very_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/pancreasDUCA1.jpg"
   },
   
   "Thyroid Papillary Carcinoma": {
@@ -588,7 +588,7 @@ const CANCER_DATA = {
       tmb: 0.5,
       survival5yr: 98
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Papillary_thyroid_carcinoma_tall_cell_var_high_mag.jpg/512px-Papillary_thyroid_carcinoma_tall_cell_var_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/thyroidPTC1.jpg"
   },
   
   "Cervical Squamous Cell Carcinoma": {
@@ -625,7 +625,7 @@ const CANCER_DATA = {
       tmb: 3.5,
       survival5yr: 66
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Cervical_squamous_cell_carcinoma_-_2_-_very_high_mag.jpg/512px-Cervical_squamous_cell_carcinoma_-_2_-_very_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/cervixSCC1.jpg"
   },
   
   "Sarcoma": {
@@ -662,7 +662,7 @@ const CANCER_DATA = {
       tmb: 1.5,
       survival5yr: 55
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Leiomyosarcoma_-_high_mag.jpg/512px-Leiomyosarcoma_-_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/softtissueleiomyosarcoma1.jpg"
   },
   
   "Low Grade Glioma": {
@@ -699,7 +699,7 @@ const CANCER_DATA = {
       tmb: 1.0,
       survival5yr: 70
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Astrocytoma_IDH-mutant.jpg/512px-Astrocytoma_IDH-mutant.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/cnstumorastrocytoma1.jpg"
   },
   
   "Testicular Germ Cell Tumor": {
@@ -736,7 +736,7 @@ const CANCER_DATA = {
       tmb: 0.5,
       survival5yr: 95
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Seminoma_high_mag.jpg/512px-Seminoma_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/testisseminoma1.jpg"
   },
   
   "Esophageal Carcinoma": {
@@ -773,7 +773,7 @@ const CANCER_DATA = {
       tmb: 5.5,
       survival5yr: 20
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Esophageal_squamous_cell_carcinoma_-_high_mag.jpg/512px-Esophageal_squamous_cell_carcinoma_-_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/esophagusSCC1.jpg"
   },
   
   "Kidney Papillary Cell Carcinoma": {
@@ -810,7 +810,7 @@ const CANCER_DATA = {
       tmb: 1.2,
       survival5yr: 82
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Papillary_renal_cell_carcinoma_-_high_mag.jpg/512px-Papillary_renal_cell_carcinoma_-_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/kidneytumorpapillary1.jpg"
   },
   
   "Cholangiocarcinoma": {
@@ -847,7 +847,7 @@ const CANCER_DATA = {
       tmb: 1.8,
       survival5yr: 10
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Cholangiocarcinoma_-_high_mag.jpg/512px-Cholangiocarcinoma_-_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/livercholangiocarcinoma1.jpg"
   },
   
   "Adrenocortical Carcinoma": {
@@ -884,7 +884,7 @@ const CANCER_DATA = {
       tmb: 2.5,
       survival5yr: 35
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Adrenal_cortical_carcinoma_-_high_mag.jpg/512px-Adrenal_cortical_carcinoma_-_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/adrenalACC1.jpg"
   },
   
   "Pheochromocytoma and Paraganglioma": {
@@ -921,7 +921,7 @@ const CANCER_DATA = {
       tmb: 0.5,
       survival5yr: 85
     },
-    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Pheochromocytoma_high_mag.jpg/512px-Pheochromocytoma_high_mag.jpg"
+    histology: "https://images.pathologyoutlines.com/topic/adrenalpheo1.jpg"
   }
 };
 
