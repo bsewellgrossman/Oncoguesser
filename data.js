@@ -1,1029 +1,928 @@
 const CANCER_DATA = {
-    "Breast Cancer": {
-        displayName: "Breast Cancer",
-        studyId: "brca_tcga",
-        sampleCount: 1084,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Invasive_ductal_carcinoma_of_the_breast.jpg/512px-Invasive_ductal_carcinoma_of_the_breast.jpg",
-        histologyCaption: "Invasive ductal carcinoma - H&E stain",
-        mutations: [
-            { gene: "PIK3CA", frequency: "34.1" },
-            { gene: "TP53", frequency: "33.2" },
-            { gene: "CDH1", frequency: "11.0" },
-            { gene: "GATA3", frequency: "10.8" },
-            { gene: "MAP3K1", frequency: "7.8" },
-            { gene: "KMT2C", frequency: "7.2" },
-            { gene: "PTEN", frequency: "4.5" },
-            { gene: "AKT1", frequency: "3.8" },
-            { gene: "CBFB", frequency: "3.5" },
-            { gene: "RUNX1", frequency: "3.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "ERBB2", frequency: "18.2" },
-                { gene: "CCND1", frequency: "15.8" },
-                { gene: "MYC", frequency: "14.2" },
-                { gene: "FGFR1", frequency: "12.1" },
-                { gene: "MDM2", frequency: "8.5" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "8.2" },
-                { gene: "PTEN", frequency: "6.5" },
-                { gene: "RB1", frequency: "5.8" },
-                { gene: "MAP2K4", frequency: "4.2" },
-                { gene: "TP53", frequency: "3.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 58,
-            malePercent: 1,
-            femalePercent: 99,
-            medianTMB: 1.5
-        }
+  "Breast Carcinoma": {
+    mutations: [
+      { gene: "PIK3CA", freq: 34 },
+      { gene: "TP53", freq: 33 },
+      { gene: "CDH1", freq: 11 },
+      { gene: "GATA3", freq: 10 },
+      { gene: "MAP3K1", freq: 8 },
+      { gene: "KMT2C", freq: 7 },
+      { gene: "AKT1", freq: 4 },
+      { gene: "PTEN", freq: 4 },
+      { gene: "CBFB", freq: 4 },
+      { gene: "NF1", freq: 3 }
+    ],
+    amplifications: [
+      { gene: "ERBB2", freq: 18 },
+      { gene: "CCND1", freq: 16 },
+      { gene: "FGF19", freq: 14 },
+      { gene: "MYC", freq: 12 },
+      { gene: "MDM2", freq: 5 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 8 },
+      { gene: "PTEN", freq: 5 },
+      { gene: "RB1", freq: 4 },
+      { gene: "MAP2K4", freq: 3 },
+      { gene: "NF1", freq: 2 }
+    ],
+    clinical: {
+      male: 1,
+      female: 99,
+      medianAge: 58,
+      tmb: 1.5,
+      survival5yr: 90
     },
-    "Lung Adenocarcinoma": {
-        displayName: "Lung Adenocarcinoma",
-        studyId: "luad_tcga",
-        sampleCount: 566,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Adenocarcinoma_of_the_lung.jpg/512px-Adenocarcinoma_of_the_lung.jpg",
-        histologyCaption: "Lung adenocarcinoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "52.1" },
-            { gene: "KRAS", frequency: "32.6" },
-            { gene: "KEAP1", frequency: "18.2" },
-            { gene: "STK11", frequency: "16.8" },
-            { gene: "EGFR", frequency: "14.2" },
-            { gene: "NF1", frequency: "11.5" },
-            { gene: "BRAF", frequency: "10.2" },
-            { gene: "SETD2", frequency: "9.1" },
-            { gene: "RBM10", frequency: "8.5" },
-            { gene: "MGA", frequency: "7.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "TERT", frequency: "18.5" },
-                { gene: "MYC", frequency: "12.8" },
-                { gene: "EGFR", frequency: "11.2" },
-                { gene: "NKX2-1", frequency: "10.5" },
-                { gene: "MDM2", frequency: "8.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "22.5" },
-                { gene: "STK11", frequency: "12.8" },
-                { gene: "KEAP1", frequency: "8.5" },
-                { gene: "PTEN", frequency: "6.2" },
-                { gene: "RB1", frequency: "5.1" }
-            ]
-        },
-        clinical: {
-            medianAge: 65,
-            malePercent: 46,
-            femalePercent: 54,
-            medianTMB: 6.2
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Invasive_ductal_carcinoma_of_the_breast.jpg/512px-Invasive_ductal_carcinoma_of_the_breast.jpg"
+  },
+  
+  "Lung Adenocarcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 46 },
+      { gene: "KRAS", freq: 33 },
+      { gene: "KEAP1", freq: 19 },
+      { gene: "STK11", freq: 17 },
+      { gene: "EGFR", freq: 14 },
+      { gene: "NF1", freq: 11 },
+      { gene: "BRAF", freq: 10 },
+      { gene: "SETD2", freq: 9 },
+      { gene: "RBM10", freq: 8 },
+      { gene: "MGA", freq: 8 }
+    ],
+    amplifications: [
+      { gene: "TERT", freq: 18 },
+      { gene: "MYC", freq: 12 },
+      { gene: "EGFR", freq: 11 },
+      { gene: "NKX2-1", freq: 10 },
+      { gene: "MDM2", freq: 7 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 25 },
+      { gene: "STK11", freq: 12 },
+      { gene: "KEAP1", freq: 8 },
+      { gene: "PTEN", freq: 5 },
+      { gene: "RB1", freq: 4 }
+    ],
+    clinical: {
+      male: 47,
+      female: 53,
+      medianAge: 65,
+      tmb: 8.1,
+      survival5yr: 22
     },
-    "Lung Squamous Cell Carcinoma": {
-        displayName: "Lung Squamous Cell Carcinoma",
-        studyId: "lusc_tcga",
-        sampleCount: 487,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Squamous_cell_carcinoma_of_the_lung.jpg/512px-Squamous_cell_carcinoma_of_the_lung.jpg",
-        histologyCaption: "Lung squamous cell carcinoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "81.2" },
-            { gene: "CDKN2A", frequency: "18.5" },
-            { gene: "NFE2L2", frequency: "15.8" },
-            { gene: "KEAP1", frequency: "12.2" },
-            { gene: "PIK3CA", frequency: "11.5" },
-            { gene: "PTEN", frequency: "8.8" },
-            { gene: "RB1", frequency: "7.2" },
-            { gene: "NOTCH1", frequency: "6.8" },
-            { gene: "HRAS", frequency: "5.5" },
-            { gene: "FBXW7", frequency: "5.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "SOX2", frequency: "42.5" },
-                { gene: "PIK3CA", frequency: "28.2" },
-                { gene: "TP63", frequency: "25.8" },
-                { gene: "FGFR1", frequency: "18.5" },
-                { gene: "CCND1", frequency: "15.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "45.2" },
-                { gene: "PTEN", frequency: "12.5" },
-                { gene: "RB1", frequency: "8.8" },
-                { gene: "NOTCH1", frequency: "6.2" },
-                { gene: "FAT1", frequency: "5.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 68,
-            malePercent: 74,
-            femalePercent: 26,
-            medianTMB: 9.8
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Lung_adenocarcinoma_%281%29_HE_stain.jpg/512px-Lung_adenocarcinoma_%281%29_HE_stain.jpg"
+  },
+  
+  "Lung Squamous Cell Carcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 81 },
+      { gene: "CDKN2A", freq: 18 },
+      { gene: "NFE2L2", freq: 16 },
+      { gene: "KEAP1", freq: 12 },
+      { gene: "PIK3CA", freq: 12 },
+      { gene: "KMT2D", freq: 11 },
+      { gene: "PTEN", freq: 10 },
+      { gene: "NF1", freq: 9 },
+      { gene: "RB1", freq: 8 },
+      { gene: "NOTCH1", freq: 8 }
+    ],
+    amplifications: [
+      { gene: "SOX2", freq: 45 },
+      { gene: "PIK3CA", freq: 30 },
+      { gene: "TP63", freq: 25 },
+      { gene: "FGFR1", freq: 20 },
+      { gene: "EGFR", freq: 10 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 45 },
+      { gene: "PTEN", freq: 15 },
+      { gene: "RB1", freq: 10 },
+      { gene: "NOTCH1", freq: 5 },
+      { gene: "FAT1", freq: 4 }
+    ],
+    clinical: {
+      male: 74,
+      female: 26,
+      medianAge: 68,
+      tmb: 10.2,
+      survival5yr: 18
     },
-    "Colorectal Cancer": {
-        displayName: "Colorectal Cancer",
-        studyId: "coadread_tcga",
-        sampleCount: 594,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Colon_cancer_2.jpg/512px-Colon_cancer_2.jpg",
-        histologyCaption: "Colorectal adenocarcinoma - H&E stain",
-        mutations: [
-            { gene: "APC", frequency: "76.2" },
-            { gene: "TP53", frequency: "54.8" },
-            { gene: "KRAS", frequency: "42.5" },
-            { gene: "PIK3CA", frequency: "18.2" },
-            { gene: "FBXW7", frequency: "11.5" },
-            { gene: "SMAD4", frequency: "10.8" },
-            { gene: "TCF7L2", frequency: "9.5" },
-            { gene: "NRAS", frequency: "5.8" },
-            { gene: "BRAF", frequency: "5.5" },
-            { gene: "CTNNB1", frequency: "5.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MYC", frequency: "12.5" },
-                { gene: "ERBB2", frequency: "8.2" },
-                { gene: "EGFR", frequency: "6.8" },
-                { gene: "IGF2", frequency: "5.5" },
-                { gene: "CCNE1", frequency: "4.2" }
-            ],
-            deletions: [
-                { gene: "SMAD4", frequency: "18.5" },
-                { gene: "APC", frequency: "15.2" },
-                { gene: "PTEN", frequency: "8.5" },
-                { gene: "TP53", frequency: "7.8" },
-                { gene: "CDKN2A", frequency: "5.2" }
-            ]
-        },
-        clinical: {
-            medianAge: 66,
-            malePercent: 53,
-            femalePercent: 47,
-            medianTMB: 3.5
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Squamous_cell_carcinoma_of_the_lung.jpg/512px-Squamous_cell_carcinoma_of_the_lung.jpg"
+  },
+  
+  "Colorectal Adenocarcinoma": {
+    mutations: [
+      { gene: "APC", freq: 75 },
+      { gene: "TP53", freq: 60 },
+      { gene: "KRAS", freq: 43 },
+      { gene: "PIK3CA", freq: 18 },
+      { gene: "FBXW7", freq: 11 },
+      { gene: "SMAD4", freq: 10 },
+      { gene: "TCF7L2", freq: 9 },
+      { gene: "NRAS", freq: 8 },
+      { gene: "BRAF", freq: 8 },
+      { gene: "SOX9", freq: 7 }
+    ],
+    amplifications: [
+      { gene: "ERBB2", freq: 7 },
+      { gene: "IGF2", freq: 6 },
+      { gene: "MYC", freq: 5 },
+      { gene: "EGFR", freq: 4 },
+      { gene: "CCNE1", freq: 3 }
+    ],
+    deletions: [
+      { gene: "SMAD4", freq: 18 },
+      { gene: "APC", freq: 10 },
+      { gene: "PTEN", freq: 8 },
+      { gene: "CDKN2A", freq: 5 },
+      { gene: "TP53", freq: 4 }
+    ],
+    clinical: {
+      male: 53,
+      female: 47,
+      medianAge: 66,
+      tmb: 4.5,
+      survival5yr: 65
     },
-    "Prostate Cancer": {
-        displayName: "Prostate Cancer",
-        studyId: "prad_tcga",
-        sampleCount: 498,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Prostate_adenocarcinoma_with_perineural_invasion.jpg/512px-Prostate_adenocarcinoma_with_perineural_invasion.jpg",
-        histologyCaption: "Prostate adenocarcinoma - H&E stain",
-        mutations: [
-            { gene: "SPOP", frequency: "11.2" },
-            { gene: "TP53", frequency: "8.5" },
-            { gene: "FOXA1", frequency: "6.8" },
-            { gene: "PTEN", frequency: "5.2" },
-            { gene: "ATM", frequency: "4.5" },
-            { gene: "MED12", frequency: "4.2" },
-            { gene: "CDK12", frequency: "3.8" },
-            { gene: "BRCA2", frequency: "3.2" },
-            { gene: "APC", frequency: "2.8" },
-            { gene: "PIK3CA", frequency: "2.5" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MYC", frequency: "8.5" },
-                { gene: "AR", frequency: "3.2" },
-                { gene: "BRAF", frequency: "2.8" },
-                { gene: "PIK3CA", frequency: "2.5" },
-                { gene: "CCND1", frequency: "2.2" }
-            ],
-            deletions: [
-                { gene: "PTEN", frequency: "18.5" },
-                { gene: "CHD1", frequency: "12.8" },
-                { gene: "RB1", frequency: "8.2" },
-                { gene: "BRCA2", frequency: "5.5" },
-                { gene: "TP53", frequency: "4.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 62,
-            malePercent: 100,
-            femalePercent: 0,
-            medianTMB: 0.9
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Colon_cancer_2.jpg/512px-Colon_cancer_2.jpg"
+  },
+  
+  "Prostate Adenocarcinoma": {
+    mutations: [
+      { gene: "SPOP", freq: 11 },
+      { gene: "TP53", freq: 10 },
+      { gene: "FOXA1", freq: 9 },
+      { gene: "PTEN", freq: 8 },
+      { gene: "KMT2D", freq: 6 },
+      { gene: "ATM", freq: 5 },
+      { gene: "MED12", freq: 5 },
+      { gene: "CDK12", freq: 4 },
+      { gene: "KMT2C", freq: 4 },
+      { gene: "APC", freq: 3 }
+    ],
+    amplifications: [
+      { gene: "AR", freq: 4 },
+      { gene: "MYC", freq: 3 },
+      { gene: "NCOA2", freq: 2 },
+      { gene: "PIK3CA", freq: 2 },
+      { gene: "BRAF", freq: 1 }
+    ],
+    deletions: [
+      { gene: "PTEN", freq: 17 },
+      { gene: "CHD1", freq: 10 },
+      { gene: "RB1", freq: 5 },
+      { gene: "BRCA2", freq: 4 },
+      { gene: "TP53", freq: 3 }
+    ],
+    clinical: {
+      male: 100,
+      female: 0,
+      medianAge: 61,
+      tmb: 1.0,
+      survival5yr: 98
     },
-    "Melanoma": {
-        displayName: "Melanoma",
-        studyId: "skcm_tcga",
-        sampleCount: 448,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Melanoma.jpg/512px-Melanoma.jpg",
-        histologyCaption: "Malignant melanoma - H&E stain",
-        mutations: [
-            { gene: "BRAF", frequency: "48.5" },
-            { gene: "NRAS", frequency: "25.8" },
-            { gene: "TP53", frequency: "18.2" },
-            { gene: "CDKN2A", frequency: "12.5" },
-            { gene: "NF1", frequency: "12.2" },
-            { gene: "PTEN", frequency: "8.5" },
-            { gene: "ARID2", frequency: "7.8" },
-            { gene: "PPP6C", frequency: "6.5" },
-            { gene: "RAC1", frequency: "5.8" },
-            { gene: "MAP2K1", frequency: "5.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MITF", frequency: "15.2" },
-                { gene: "CCND1", frequency: "12.8" },
-                { gene: "TERT", frequency: "10.5" },
-                { gene: "CDK4", frequency: "8.2" },
-                { gene: "BRAF", frequency: "6.5" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "42.5" },
-                { gene: "PTEN", frequency: "15.8" },
-                { gene: "TP53", frequency: "8.2" },
-                { gene: "ARID1A", frequency: "5.5" },
-                { gene: "NF1", frequency: "4.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 58,
-            malePercent: 62,
-            femalePercent: 38,
-            medianTMB: 12.5
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Prostate_adenocarcinoma_%282%29.jpg/512px-Prostate_adenocarcinoma_%282%29.jpg"
+  },
+  
+  "Cutaneous Melanoma": {
+    mutations: [
+      { gene: "BRAF", freq: 52 },
+      { gene: "NRAS", freq: 28 },
+      { gene: "TP53", freq: 16 },
+      { gene: "CDKN2A", freq: 15 },
+      { gene: "NF1", freq: 14 },
+      { gene: "PTEN", freq: 12 },
+      { gene: "ARID2", freq: 11 },
+      { gene: "PPP6C", freq: 9 },
+      { gene: "RAC1", freq: 7 },
+      { gene: "MAP2K1", freq: 6 }
+    ],
+    amplifications: [
+      { gene: "MITF", freq: 15 },
+      { gene: "CCND1", freq: 12 },
+      { gene: "TERT", freq: 10 },
+      { gene: "BRAF", freq: 8 },
+      { gene: "MDM2", freq: 5 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 50 },
+      { gene: "PTEN", freq: 25 },
+      { gene: "TP53", freq: 8 },
+      { gene: "NF1", freq: 6 },
+      { gene: "RB1", freq: 4 }
+    ],
+    clinical: {
+      male: 62,
+      female: 38,
+      medianAge: 58,
+      tmb: 18.0,
+      survival5yr: 93
     },
-    "Ovarian Cancer": {
-        displayName: "Ovarian Cancer",
-        studyId: "ov_tcga",
-        sampleCount: 585,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Serous_carcinoma_2a_-_cytology.jpg/512px-Serous_carcinoma_2a_-_cytology.jpg",
-        histologyCaption: "High-grade serous ovarian carcinoma",
-        mutations: [
-            { gene: "TP53", frequency: "96.2" },
-            { gene: "BRCA1", frequency: "8.5" },
-            { gene: "BRCA2", frequency: "6.2" },
-            { gene: "NF1", frequency: "4.8" },
-            { gene: "RB1", frequency: "3.5" },
-            { gene: "CDK12", frequency: "3.2" },
-            { gene: "CSMD3", frequency: "2.8" },
-            { gene: "FAT3", frequency: "2.5" },
-            { gene: "GABRA6", frequency: "2.2" },
-            { gene: "CDK12", frequency: "2.0" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "CCNE1", frequency: "22.5" },
-                { gene: "MYC", frequency: "35.2" },
-                { gene: "MECOM", frequency: "18.5" },
-                { gene: "ERBB2", frequency: "6.8" },
-                { gene: "AKT2", frequency: "5.5" }
-            ],
-            deletions: [
-                { gene: "RB1", frequency: "12.5" },
-                { gene: "PTEN", frequency: "8.8" },
-                { gene: "NF1", frequency: "7.2" },
-                { gene: "BRCA1", frequency: "6.5" },
-                { gene: "BRCA2", frequency: "5.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 59,
-            malePercent: 0,
-            femalePercent: 100,
-            medianTMB: 2.2
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Melanoma_HE_stain.jpg/512px-Melanoma_HE_stain.jpg"
+  },
+  
+  "Ovarian Serous Carcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 96 },
+      { gene: "BRCA1", freq: 12 },
+      { gene: "BRCA2", freq: 11 },
+      { gene: "NF1", freq: 8 },
+      { gene: "RB1", freq: 6 },
+      { gene: "CDK12", freq: 5 },
+      { gene: "CSMD3", freq: 5 },
+      { gene: "FAT3", freq: 4 },
+      { gene: "GABRA6", freq: 4 },
+      { gene: "CREBBP", freq: 3 }
+    ],
+    amplifications: [
+      { gene: "CCNE1", freq: 25 },
+      { gene: "MYC", freq: 22 },
+      { gene: "MECOM", freq: 15 },
+      { gene: "KRAS", freq: 10 },
+      { gene: "PIK3CA", freq: 8 }
+    ],
+    deletions: [
+      { gene: "PTEN", freq: 18 },
+      { gene: "RB1", freq: 15 },
+      { gene: "NF1", freq: 12 },
+      { gene: "RAD51B", freq: 8 },
+      { gene: "CDKN2A", freq: 5 }
+    ],
+    clinical: {
+      male: 0,
+      female: 100,
+      medianAge: 60,
+      tmb: 2.5,
+      survival5yr: 47
     },
-    "Glioblastoma": {
-        displayName: "Glioblastoma",
-        studyId: "gbm_tcga",
-        sampleCount: 592,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Glioblastoma_%281%29.jpg/512px-Glioblastoma_%281%29.jpg",
-        histologyCaption: "Glioblastoma multiforme - H&E stain",
-        mutations: [
-            { gene: "PTEN", frequency: "28.5" },
-            { gene: "TP53", frequency: "28.2" },
-            { gene: "EGFR", frequency: "26.8" },
-            { gene: "NF1", frequency: "10.5" },
-            { gene: "PIK3CA", frequency: "8.2" },
-            { gene: "PIK3R1", frequency: "7.8" },
-            { gene: "RB1", frequency: "6.5" },
-            { gene: "ATRX", frequency: "5.8" },
-            { gene: "IDH1", frequency: "5.2" },
-            { gene: "PDGFRA", frequency: "4.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "EGFR", frequency: "45.2" },
-                { gene: "CDK4", frequency: "18.5" },
-                { gene: "PDGFRA", frequency: "15.2" },
-                { gene: "MDM2", frequency: "12.8" },
-                { gene: "MDM4", frequency: "8.5" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "55.8" },
-                { gene: "PTEN", frequency: "38.2" },
-                { gene: "RB1", frequency: "8.5" },
-                { gene: "NF1", frequency: "6.2" },
-                { gene: "TP53", frequency: "5.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 59,
-            malePercent: 59,
-            femalePercent: 41,
-            medianTMB: 2.5
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Serous_carcinoma_2a_-_cytology.jpg/512px-Serous_carcinoma_2a_-_cytology.jpg"
+  },
+  
+  "Glioblastoma Multiforme": {
+    mutations: [
+      { gene: "PTEN", freq: 33 },
+      { gene: "TP53", freq: 31 },
+      { gene: "EGFR", freq: 26 },
+      { gene: "PIK3R1", freq: 11 },
+      { gene: "NF1", freq: 10 },
+      { gene: "RB1", freq: 8 },
+      { gene: "PIK3CA", freq: 7 },
+      { gene: "IDH1", freq: 6 },
+      { gene: "ATRX", freq: 5 },
+      { gene: "PDGFRA", freq: 5 }
+    ],
+    amplifications: [
+      { gene: "EGFR", freq: 55 },
+      { gene: "CDK4", freq: 18 },
+      { gene: "MDM2", freq: 15 },
+      { gene: "PDGFRA", freq: 13 },
+      { gene: "MET", freq: 5 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 60 },
+      { gene: "PTEN", freq: 40 },
+      { gene: "RB1", freq: 10 },
+      { gene: "NF1", freq: 8 },
+      { gene: "TP53", freq: 5 }
+    ],
+    clinical: {
+      male: 59,
+      female: 41,
+      medianAge: 60,
+      tmb: 2.0,
+      survival5yr: 5
     },
-    "Head and Neck Cancer": {
-        displayName: "Head and Neck Cancer",
-        studyId: "hnsc_tcga",
-        sampleCount: 523,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Squamous_Cell_Carcinoma.jpg/512px-Squamous_Cell_Carcinoma.jpg",
-        histologyCaption: "Head and neck squamous cell carcinoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "68.5" },
-            { gene: "CDKN2A", frequency: "22.2" },
-            { gene: "FAT1", frequency: "18.8" },
-            { gene: "NOTCH1", frequency: "18.2" },
-            { gene: "PIK3CA", frequency: "16.5" },
-            { gene: "KMT2D", frequency: "14.2" },
-            { gene: "NSD1", frequency: "10.5" },
-            { gene: "CASP8", frequency: "9.8" },
-            { gene: "HRAS", frequency: "5.5" },
-            { gene: "PTEN", frequency: "5.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "CCND1", frequency: "28.5" },
-                { gene: "FADD", frequency: "22.2" },
-                { gene: "TP63", frequency: "18.5" },
-                { gene: "PIK3CA", frequency: "15.8" },
-                { gene: "EGFR", frequency: "12.5" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "32.5" },
-                { gene: "FAT1", frequency: "8.5" },
-                { gene: "NOTCH1", frequency: "6.2" },
-                { gene: "PTEN", frequency: "5.8" },
-                { gene: "RB1", frequency: "4.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 61,
-            malePercent: 73,
-            femalePercent: 27,
-            medianTMB: 4.8
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Glioblastoma_multiforme_%281%29.jpg/512px-Glioblastoma_multiforme_%281%29.jpg"
+  },
+  
+  "Head and Neck Squamous Cell Carcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 72 },
+      { gene: "CDKN2A", freq: 22 },
+      { gene: "FAT1", freq: 20 },
+      { gene: "NOTCH1", freq: 18 },
+      { gene: "PIK3CA", freq: 18 },
+      { gene: "KMT2D", freq: 15 },
+      { gene: "NSD1", freq: 10 },
+      { gene: "CASP8", freq: 9 },
+      { gene: "HRAS", freq: 8 },
+      { gene: "NFE2L2", freq: 7 }
+    ],
+    amplifications: [
+      { gene: "CCND1", freq: 25 },
+      { gene: "FADD", freq: 18 },
+      { gene: "MYC", freq: 12 },
+      { gene: "EGFR", freq: 10 },
+      { gene: "PIK3CA", freq: 8 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 35 },
+      { gene: "FAT1", freq: 12 },
+      { gene: "NOTCH1", freq: 8 },
+      { gene: "TP53", freq: 5 },
+      { gene: "PTEN", freq: 4 }
+    ],
+    clinical: {
+      male: 74,
+      female: 26,
+      medianAge: 61,
+      tmb: 5.0,
+      survival5yr: 50
     },
-    "Kidney Clear Cell Carcinoma": {
-        displayName: "Kidney Clear Cell Carcinoma",
-        studyId: "kirc_tcga",
-        sampleCount: 534,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Clear_cell_renal_cell_carcinoma_high_mag.jpg/512px-Clear_cell_renal_cell_carcinoma_high_mag.jpg",
-        histologyCaption: "Clear cell renal cell carcinoma - H&E stain",
-        mutations: [
-            { gene: "VHL", frequency: "52.8" },
-            { gene: "PBRM1", frequency: "32.5" },
-            { gene: "SETD2", frequency: "12.8" },
-            { gene: "BAP1", frequency: "10.2" },
-            { gene: "MTOR", frequency: "8.5" },
-            { gene: "KDM5C", frequency: "7.2" },
-            { gene: "PTEN", frequency: "5.8" },
-            { gene: "TP53", frequency: "4.5" },
-            { gene: "PIK3CA", frequency: "3.8" },
-            { gene: "ARID1A", frequency: "3.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MYC", frequency: "8.5" },
-                { gene: "SQSTM1", frequency: "5.2" },
-                { gene: "MDM4", frequency: "4.8" },
-                { gene: "JAK2", frequency: "3.5" },
-                { gene: "CCND1", frequency: "2.8" }
-            ],
-            deletions: [
-                { gene: "VHL", frequency: "22.5" },
-                { gene: "CDKN2A", frequency: "12.8" },
-                { gene: "PBRM1", frequency: "10.5" },
-                { gene: "SETD2", frequency: "8.2" },
-                { gene: "BAP1", frequency: "6.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 60,
-            malePercent: 65,
-            femalePercent: 35,
-            medianTMB: 1.2
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Squamous_Cell_Carcinoma.jpg/512px-Squamous_Cell_Carcinoma.jpg"
+  },
+  
+  "Kidney Clear Cell Carcinoma": {
+    mutations: [
+      { gene: "VHL", freq: 52 },
+      { gene: "PBRM1", freq: 33 },
+      { gene: "SETD2", freq: 12 },
+      { gene: "BAP1", freq: 10 },
+      { gene: "KDM5C", freq: 7 },
+      { gene: "PTEN", freq: 5 },
+      { gene: "MTOR", freq: 5 },
+      { gene: "TP53", freq: 4 },
+      { gene: "PIK3CA", freq: 3 },
+      { gene: "ARID1A", freq: 3 }
+    ],
+    amplifications: [
+      { gene: "MYC", freq: 8 },
+      { gene: "CCND1", freq: 5 },
+      { gene: "MDM4", freq: 4 },
+      { gene: "JAK2", freq: 3 },
+      { gene: "EGFR", freq: 2 }
+    ],
+    deletions: [
+      { gene: "VHL", freq: 30 },
+      { gene: "CDKN2A", freq: 10 },
+      { gene: "PBRM1", freq: 8 },
+      { gene: "SETD2", freq: 6 },
+      { gene: "BAP1", freq: 5 }
+    ],
+    clinical: {
+      male: 65,
+      female: 35,
+      medianAge: 61,
+      tmb: 1.5,
+      survival5yr: 74
     },
-    "Liver Cancer": {
-        displayName: "Liver Cancer",
-        studyId: "lihc_tcga",
-        sampleCount: 372,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Hepatocellular_carcinoma_1.jpg/512px-Hepatocellular_carcinoma_1.jpg",
-        histologyCaption: "Hepatocellular carcinoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "28.5" },
-            { gene: "CTNNB1", frequency: "25.8" },
-            { gene: "AXIN1", frequency: "8.5" },
-            { gene: "ARID1A", frequency: "8.2" },
-            { gene: "ARID2", frequency: "6.5" },
-            { gene: "ALB", frequency: "5.8" },
-            { gene: "APOB", frequency: "5.2" },
-            { gene: "BAP1", frequency: "4.5" },
-            { gene: "NFE2L2", frequency: "4.2" },
-            { gene: "KEAP1", frequency: "3.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "TERT", frequency: "18.5" },
-                { gene: "MYC", frequency: "15.2" },
-                { gene: "CCND1", frequency: "12.8" },
-                { gene: "FGF19", frequency: "10.5" },
-                { gene: "VEGFA", frequency: "8.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "15.5" },
-                { gene: "RB1", frequency: "8.8" },
-                { gene: "PTEN", frequency: "6.5" },
-                { gene: "ARID1A", frequency: "5.2" },
-                { gene: "TP53", frequency: "4.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 61,
-            malePercent: 68,
-            femalePercent: 32,
-            medianTMB: 1.8
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Clear_cell_renal_cell_carcinoma_high_mag.jpg/512px-Clear_cell_renal_cell_carcinoma_high_mag.jpg"
+  },
+  
+  "Hepatocellular Carcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 31 },
+      { gene: "CTNNB1", freq: 27 },
+      { gene: "AXIN1", freq: 10 },
+      { gene: "ARID1A", freq: 9 },
+      { gene: "ALB", freq: 8 },
+      { gene: "ARID2", freq: 7 },
+      { gene: "NFE2L2", freq: 6 },
+      { gene: "KEAP1", freq: 5 },
+      { gene: "RB1", freq: 4 },
+      { gene: "PIK3CA", freq: 4 }
+    ],
+    amplifications: [
+      { gene: "CCND1", freq: 12 },
+      { gene: "FGF19", freq: 10 },
+      { gene: "VEGFA", freq: 8 },
+      { gene: "MYC", freq: 8 },
+      { gene: "MET", freq: 5 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 15 },
+      { gene: "AXIN1", freq: 8 },
+      { gene: "RB1", freq: 8 },
+      { gene: "PTEN", freq: 6 },
+      { gene: "IRF2", freq: 4 }
+    ],
+    clinical: {
+      male: 74,
+      female: 26,
+      medianAge: 61,
+      tmb: 4.0,
+      survival5yr: 20
     },
-    "Stomach Cancer": {
-        displayName: "Stomach Cancer",
-        studyId: "stad_tcga",
-        sampleCount: 440,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Adenocarcinoma_of_the_stomach.jpg/512px-Adenocarcinoma_of_the_stomach.jpg",
-        histologyCaption: "Gastric adenocarcinoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "48.2" },
-            { gene: "ARID1A", frequency: "18.5" },
-            { gene: "CDH1", frequency: "12.8" },
-            { gene: "PIK3CA", frequency: "12.5" },
-            { gene: "KRAS", frequency: "8.8" },
-            { gene: "RHOA", frequency: "6.5" },
-            { gene: "APC", frequency: "6.2" },
-            { gene: "SMAD4", frequency: "5.5" },
-            { gene: "ERBB3", frequency: "5.2" },
-            { gene: "CTNNB1", frequency: "4.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "ERBB2", frequency: "18.5" },
-                { gene: "CCNE1", frequency: "15.2" },
-                { gene: "MYC", frequency: "12.8" },
-                { gene: "EGFR", frequency: "8.5" },
-                { gene: "CCND1", frequency: "6.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "22.5" },
-                { gene: "SMAD4", frequency: "12.8" },
-                { gene: "PTEN", frequency: "8.5" },
-                { gene: "ARID1A", frequency: "6.2" },
-                { gene: "RB1", frequency: "4.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 66,
-            malePercent: 65,
-            femalePercent: 35,
-            medianTMB: 3.8
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Hepatocellular_carcinoma_1.jpg/512px-Hepatocellular_carcinoma_1.jpg"
+  },
+  
+  "Stomach Adenocarcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 48 },
+      { gene: "CDH1", freq: 12 },
+      { gene: "ARID1A", freq: 12 },
+      { gene: "PIK3CA", freq: 10 },
+      { gene: "KMT2D", freq: 9 },
+      { gene: "KRAS", freq: 8 },
+      { gene: "RHOA", freq: 7 },
+      { gene: "APC", freq: 6 },
+      { gene: "SMAD4", freq: 5 },
+      { gene: "ERBB3", freq: 5 }
+    ],
+    amplifications: [
+      { gene: "ERBB2", freq: 15 },
+      { gene: "CCNE1", freq: 12 },
+      { gene: "VEGFA", freq: 10 },
+      { gene: "KRAS", freq: 8 },
+      { gene: "MYC", freq: 8 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 20 },
+      { gene: "SMAD4", freq: 10 },
+      { gene: "PTEN", freq: 8 },
+      { gene: "RB1", freq: 5 },
+      { gene: "ARID1A", freq: 4 }
+    ],
+    clinical: {
+      male: 65,
+      female: 35,
+      medianAge: 66,
+      tmb: 3.5,
+      survival5yr: 32
     },
-    "Bladder Cancer": {
-        displayName: "Bladder Cancer",
-        studyId: "blca_tcga",
-        sampleCount: 412,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Urothelial_carcinoma_of_the_urinary_bladder_%28high_grade%29.jpg/512px-Urothelial_carcinoma_of_the_urinary_bladder_%28high_grade%29.jpg",
-        histologyCaption: "High-grade urothelial carcinoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "48.5" },
-            { gene: "KDM6A", frequency: "24.2" },
-            { gene: "ARID1A", frequency: "22.8" },
-            { gene: "PIK3CA", frequency: "20.5" },
-            { gene: "RB1", frequency: "15.2" },
-            { gene: "KMT2D", frequency: "14.8" },
-            { gene: "FGFR3", frequency: "14.2" },
-            { gene: "ELF3", frequency: "12.5" },
-            { gene: "CDKN1A", frequency: "10.8" },
-            { gene: "ERBB2", frequency: "10.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "PPARG", frequency: "18.5" },
-                { gene: "E2F3", frequency: "15.8" },
-                { gene: "CCND1", frequency: "12.5" },
-                { gene: "ERBB2", frequency: "10.2" },
-                { gene: "EGFR", frequency: "8.5" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "35.2" },
-                { gene: "RB1", frequency: "18.5" },
-                { gene: "PTEN", frequency: "8.2" },
-                { gene: "ARID1A", frequency: "6.5" },
-                { gene: "WWOX", frequency: "5.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 68,
-            malePercent: 74,
-            femalePercent: 26,
-            medianTMB: 5.5
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Gastric_adenocarcinoma.jpg/512px-Gastric_adenocarcinoma.jpg"
+  },
+  
+  "Bladder Urothelial Carcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 48 },
+      { gene: "KDM6A", freq: 26 },
+      { gene: "ARID1A", freq: 25 },
+      { gene: "KMT2D", freq: 25 },
+      { gene: "PIK3CA", freq: 22 },
+      { gene: "RB1", freq: 17 },
+      { gene: "ELF3", freq: 12 },
+      { gene: "FGFR3", freq: 12 },
+      { gene: "STAG2", freq: 11 },
+      { gene: "ERBB2", freq: 10 }
+    ],
+    amplifications: [
+      { gene: "PPARG", freq: 15 },
+      { gene: "E2F3", freq: 12 },
+      { gene: "EGFR", freq: 10 },
+      { gene: "ERBB2", freq: 8 },
+      { gene: "CCND1", freq: 8 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 35 },
+      { gene: "RB1", freq: 15 },
+      { gene: "PTEN", freq: 8 },
+      { gene: "WWOX", freq: 6 },
+      { gene: "CREBBP", freq: 5 }
+    ],
+    clinical: {
+      male: 74,
+      female: 26,
+      medianAge: 69,
+      tmb: 7.0,
+      survival5yr: 77
     },
-    "Endometrial Cancer": {
-        displayName: "Endometrial Cancer",
-        studyId: "ucec_tcga",
-        sampleCount: 529,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Endometrioid_endometrial_adenocarcinoma_high_mag.jpg/512px-Endometrioid_endometrial_adenocarcinoma_high_mag.jpg",
-        histologyCaption: "Endometrioid endometrial adenocarcinoma - H&E stain",
-        mutations: [
-            { gene: "PTEN", frequency: "64.2" },
-            { gene: "PIK3CA", frequency: "48.5" },
-            { gene: "PIK3R1", frequency: "32.8" },
-            { gene: "ARID1A", frequency: "32.5" },
-            { gene: "TP53", frequency: "28.2" },
-            { gene: "CTNNB1", frequency: "22.5" },
-            { gene: "KRAS", frequency: "18.8" },
-            { gene: "CTCF", frequency: "15.2" },
-            { gene: "RPL22", frequency: "12.8" },
-            { gene: "FGFR2", frequency: "11.5" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MYC", frequency: "12.8" },
-                { gene: "ERBB2", frequency: "8.5" },
-                { gene: "CCNE1", frequency: "6.2" },
-                { gene: "PIK3CA", frequency: "5.5" },
-                { gene: "FGFR3", frequency: "4.2" }
-            ],
-            deletions: [
-                { gene: "PTEN", frequency: "18.5" },
-                { gene: "ARID1A", frequency: "10.2" },
-                { gene: "CDKN2A", frequency: "8.5" },
-                { gene: "RB1", frequency: "5.8" },
-                { gene: "TP53", frequency: "4.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 64,
-            malePercent: 0,
-            femalePercent: 100,
-            medianTMB: 3.2
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Urothelial_carcinoma_high_grade.jpg/512px-Urothelial_carcinoma_high_grade.jpg"
+  },
+  
+  "Endometrial Carcinoma": {
+    mutations: [
+      { gene: "PTEN", freq: 66 },
+      { gene: "PIK3CA", freq: 52 },
+      { gene: "PIK3R1", freq: 33 },
+      { gene: "ARID1A", freq: 33 },
+      { gene: "TP53", freq: 28 },
+      { gene: "CTNNB1", freq: 20 },
+      { gene: "KRAS", freq: 18 },
+      { gene: "CTCF", freq: 15 },
+      { gene: "FGFR2", freq: 12 },
+      { gene: "RPL22", freq: 10 }
+    ],
+    amplifications: [
+      { gene: "CCNE1", freq: 10 },
+      { gene: "MYC", freq: 8 },
+      { gene: "ERBB2", freq: 5 },
+      { gene: "PIK3CA", freq: 5 },
+      { gene: "FGFR3", freq: 3 }
+    ],
+    deletions: [
+      { gene: "PTEN", freq: 35 },
+      { gene: "CDKN2A", freq: 8 },
+      { gene: "TP53", freq: 6 },
+      { gene: "ARID1A", freq: 5 },
+      { gene: "RB1", freq: 4 }
+    ],
+    clinical: {
+      male: 0,
+      female: 100,
+      medianAge: 64,
+      tmb: 3.0,
+      survival5yr: 81
     },
-    "Pancreatic Cancer": {
-        displayName: "Pancreatic Cancer",
-        studyId: "paad_tcga",
-        sampleCount: 185,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Pancreatic_adenocarcinoma_%282%29_Case_01.jpg/512px-Pancreatic_adenocarcinoma_%282%29_Case_01.jpg",
-        histologyCaption: "Pancreatic ductal adenocarcinoma - H&E stain",
-        mutations: [
-            { gene: "KRAS", frequency: "92.5" },
-            { gene: "TP53", frequency: "68.2" },
-            { gene: "SMAD4", frequency: "25.8" },
-            { gene: "CDKN2A", frequency: "22.5" },
-            { gene: "ARID1A", frequency: "8.5" },
-            { gene: "RNF43", frequency: "6.2" },
-            { gene: "TGFBR2", frequency: "5.5" },
-            { gene: "GNAS", frequency: "5.2" },
-            { gene: "KMT2D", frequency: "4.8" },
-            { gene: "BRCA2", frequency: "4.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MYC", frequency: "12.8" },
-                { gene: "GATA6", frequency: "8.5" },
-                { gene: "ERBB2", frequency: "5.2" },
-                { gene: "AKT2", frequency: "4.5" },
-                { gene: "CCND1", frequency: "3.8" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "32.5" },
-                { gene: "SMAD4", frequency: "28.2" },
-                { gene: "TP53", frequency: "15.8" },
-                { gene: "ARID1A", frequency: "8.2" },
-                { gene: "PTEN", frequency: "5.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 65,
-            malePercent: 55,
-            femalePercent: 45,
-            medianTMB: 1.2
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Endometrial_adenocarcinoma_%282%29.jpg/512px-Endometrial_adenocarcinoma_%282%29.jpg"
+  },
+  
+  "Pancreatic Ductal Adenocarcinoma": {
+    mutations: [
+      { gene: "KRAS", freq: 93 },
+      { gene: "TP53", freq: 72 },
+      { gene: "CDKN2A", freq: 30 },
+      { gene: "SMAD4", freq: 25 },
+      { gene: "ARID1A", freq: 8 },
+      { gene: "RNF43", freq: 7 },
+      { gene: "TGFBR2", freq: 5 },
+      { gene: "GNAS", freq: 5 },
+      { gene: "KMT2D", freq: 4 },
+      { gene: "KMT2C", freq: 4 }
+    ],
+    amplifications: [
+      { gene: "MYC", freq: 15 },
+      { gene: "KRAS", freq: 12 },
+      { gene: "GATA6", freq: 10 },
+      { gene: "ERBB2", freq: 5 },
+      { gene: "AKT2", freq: 5 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 50 },
+      { gene: "SMAD4", freq: 35 },
+      { gene: "TP53", freq: 15 },
+      { gene: "ARID1A", freq: 5 },
+      { gene: "PTEN", freq: 4 }
+    ],
+    clinical: {
+      male: 56,
+      female: 44,
+      medianAge: 65,
+      tmb: 1.5,
+      survival5yr: 11
     },
-    "Thyroid Cancer": {
-        displayName: "Thyroid Cancer",
-        studyId: "thca_tcga",
-        sampleCount: 507,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Papillary_thyroid_carcinoma_tall_cell_var_high_mag.jpg/512px-Papillary_thyroid_carcinoma_tall_cell_var_high_mag.jpg",
-        histologyCaption: "Papillary thyroid carcinoma - H&E stain",
-        mutations: [
-            { gene: "BRAF", frequency: "58.5" },
-            { gene: "NRAS", frequency: "8.2" },
-            { gene: "HRAS", frequency: "3.5" },
-            { gene: "EIF1AX", frequency: "3.2" },
-            { gene: "KRAS", frequency: "1.8" },
-            { gene: "TG", frequency: "1.5" },
-            { gene: "TSHR", frequency: "1.2" },
-            { gene: "PPM1D", frequency: "1.0" },
-            { gene: "CHEK2", frequency: "0.8" },
-            { gene: "APC", frequency: "0.6" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "TERT", frequency: "5.2" },
-                { gene: "EGFR", frequency: "2.8" },
-                { gene: "VEGFA", frequency: "2.2" },
-                { gene: "MYC", frequency: "1.8" },
-                { gene: "CCND1", frequency: "1.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "3.5" },
-                { gene: "PTEN", frequency: "2.2" },
-                { gene: "TP53", frequency: "1.5" },
-                { gene: "RB1", frequency: "1.0" },
-                { gene: "NF1", frequency: "0.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 46,
-            malePercent: 27,
-            femalePercent: 73,
-            medianTMB: 0.4
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Pancreatic_adenocarcinoma_-_2_-_very_high_mag.jpg/512px-Pancreatic_adenocarcinoma_-_2_-_very_high_mag.jpg"
+  },
+  
+  "Thyroid Papillary Carcinoma": {
+    mutations: [
+      { gene: "BRAF", freq: 60 },
+      { gene: "NRAS", freq: 8 },
+      { gene: "HRAS", freq: 4 },
+      { gene: "EIF1AX", freq: 3 },
+      { gene: "KRAS", freq: 2 },
+      { gene: "TP53", freq: 1 },
+      { gene: "PIK3CA", freq: 1 },
+      { gene: "PTEN", freq: 1 },
+      { gene: "AKT1", freq: 1 },
+      { gene: "TSHR", freq: 1 }
+    ],
+    amplifications: [
+      { gene: "TERT", freq: 5 },
+      { gene: "MYC", freq: 2 },
+      { gene: "EGFR", freq: 1 },
+      { gene: "CCND1", freq: 1 },
+      { gene: "MDM2", freq: 1 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 3 },
+      { gene: "PTEN", freq: 2 },
+      { gene: "TP53", freq: 1 },
+      { gene: "RB1", freq: 1 },
+      { gene: "NF1", freq: 1 }
+    ],
+    clinical: {
+      male: 27,
+      female: 73,
+      medianAge: 47,
+      tmb: 0.5,
+      survival5yr: 98
     },
-    "Cervical Cancer": {
-        displayName: "Cervical Cancer",
-        studyId: "cesc_tcga",
-        sampleCount: 297,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Cervical_squamous_cell_carcinoma_histopathology.jpg/512px-Cervical_squamous_cell_carcinoma_histopathology.jpg",
-        histologyCaption: "Cervical squamous cell carcinoma - H&E stain",
-        mutations: [
-            { gene: "PIK3CA", frequency: "28.5" },
-            { gene: "EP300", frequency: "12.8" },
-            { gene: "FBXW7", frequency: "12.5" },
-            { gene: "TP53", frequency: "10.2" },
-            { gene: "KRAS", frequency: "8.5" },
-            { gene: "HLA-A", frequency: "6.8" },
-            { gene: "HLA-B", frequency: "6.2" },
-            { gene: "PTEN", frequency: "5.5" },
-            { gene: "NFE2L2", frequency: "5.2" },
-            { gene: "ARID1A", frequency: "4.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "PIK3CA", frequency: "18.5" },
-                { gene: "MYC", frequency: "15.2" },
-                { gene: "EGFR", frequency: "8.5" },
-                { gene: "ERBB2", frequency: "6.2" },
-                { gene: "CCND1", frequency: "5.5" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "12.8" },
-                { gene: "PTEN", frequency: "6.5" },
-                { gene: "STK11", frequency: "4.2" },
-                { gene: "RB1", frequency: "3.8" },
-                { gene: "TGFBR2", frequency: "2.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 46,
-            malePercent: 0,
-            femalePercent: 100,
-            medianTMB: 3.5
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Papillary_thyroid_carcinoma_tall_cell_var_high_mag.jpg/512px-Papillary_thyroid_carcinoma_tall_cell_var_high_mag.jpg"
+  },
+  
+  "Cervical Squamous Cell Carcinoma": {
+    mutations: [
+      { gene: "PIK3CA", freq: 26 },
+      { gene: "EP300", freq: 10 },
+      { gene: "FBXW7", freq: 10 },
+      { gene: "KRAS", freq: 8 },
+      { gene: "PTEN", freq: 8 },
+      { gene: "TP53", freq: 6 },
+      { gene: "NFE2L2", freq: 5 },
+      { gene: "HLA-A", freq: 5 },
+      { gene: "HLA-B", freq: 5 },
+      { gene: "ARID1A", freq: 4 }
+    ],
+    amplifications: [
+      { gene: "PIK3CA", freq: 18 },
+      { gene: "MYC", freq: 15 },
+      { gene: "EGFR", freq: 8 },
+      { gene: "ERBB2", freq: 5 },
+      { gene: "CCND1", freq: 5 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 12 },
+      { gene: "PTEN", freq: 10 },
+      { gene: "TGFBR2", freq: 5 },
+      { gene: "SMAD4", freq: 4 },
+      { gene: "RB1", freq: 3 }
+    ],
+    clinical: {
+      male: 0,
+      female: 100,
+      medianAge: 47,
+      tmb: 3.5,
+      survival5yr: 66
     },
-    "Sarcoma": {
-        displayName: "Sarcoma",
-        studyId: "sarc_tcga",
-        sampleCount: 261,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Leiomyosarcoma_of_the_adrenal_vein.jpg/512px-Leiomyosarcoma_of_the_adrenal_vein.jpg",
-        histologyCaption: "Soft tissue sarcoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "35.2" },
-            { gene: "ATRX", frequency: "22.5" },
-            { gene: "RB1", frequency: "15.8" },
-            { gene: "NF1", frequency: "8.5" },
-            { gene: "PTEN", frequency: "6.2" },
-            { gene: "PIK3CA", frequency: "5.5" },
-            { gene: "CDKN2A", frequency: "4.8" },
-            { gene: "KMT2D", frequency: "4.2" },
-            { gene: "LAMA2", frequency: "3.8" },
-            { gene: "SETD2", frequency: "3.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MDM2", frequency: "15.8" },
-                { gene: "CDK4", frequency: "15.2" },
-                { gene: "HMGA2", frequency: "12.5" },
-                { gene: "JUN", frequency: "8.5" },
-                { gene: "MYC", frequency: "6.2" }
-            ],
-            deletions: [
-                { gene: "RB1", frequency: "22.5" },
-                { gene: "CDKN2A", frequency: "18.8" },
-                { gene: "TP53", frequency: "12.5" },
-                { gene: "ATRX", frequency: "8.2" },
-                { gene: "PTEN", frequency: "6.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 61,
-            malePercent: 48,
-            femalePercent: 52,
-            medianTMB: 1.5
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Cervical_squamous_cell_carcinoma_-_2_-_very_high_mag.jpg/512px-Cervical_squamous_cell_carcinoma_-_2_-_very_high_mag.jpg"
+  },
+  
+  "Sarcoma": {
+    mutations: [
+      { gene: "TP53", freq: 35 },
+      { gene: "ATRX", freq: 20 },
+      { gene: "RB1", freq: 15 },
+      { gene: "NF1", freq: 8 },
+      { gene: "PIK3CA", freq: 5 },
+      { gene: "PTEN", freq: 5 },
+      { gene: "CDKN2A", freq: 4 },
+      { gene: "KMT2D", freq: 4 },
+      { gene: "ARID1A", freq: 3 },
+      { gene: "CTNNB1", freq: 3 }
+    ],
+    amplifications: [
+      { gene: "CDK4", freq: 25 },
+      { gene: "MDM2", freq: 22 },
+      { gene: "HMGA2", freq: 15 },
+      { gene: "TERT", freq: 10 },
+      { gene: "MYC", freq: 8 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 25 },
+      { gene: "RB1", freq: 18 },
+      { gene: "TP53", freq: 10 },
+      { gene: "NF1", freq: 8 },
+      { gene: "PTEN", freq: 6 }
+    ],
+    clinical: {
+      male: 52,
+      female: 48,
+      medianAge: 61,
+      tmb: 1.5,
+      survival5yr: 55
     },
-    "Low Grade Glioma": {
-        displayName: "Low Grade Glioma",
-        studyId: "lgg_tcga",
-        sampleCount: 516,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Oligodendroglioma_histology.jpg/512px-Oligodendroglioma_histology.jpg",
-        histologyCaption: "Low grade glioma (oligodendroglioma) - H&E stain",
-        mutations: [
-            { gene: "IDH1", frequency: "78.5" },
-            { gene: "TP53", frequency: "48.2" },
-            { gene: "ATRX", frequency: "38.5" },
-            { gene: "CIC", frequency: "22.8" },
-            { gene: "FUBP1", frequency: "12.5" },
-            { gene: "NOTCH1", frequency: "8.2" },
-            { gene: "PIK3CA", frequency: "6.5" },
-            { gene: "IDH2", frequency: "5.8" },
-            { gene: "PIK3R1", frequency: "5.2" },
-            { gene: "NF1", frequency: "4.5" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MYC", frequency: "6.5" },
-                { gene: "CDK4", frequency: "5.2" },
-                { gene: "EGFR", frequency: "4.5" },
-                { gene: "MDM2", frequency: "3.8" },
-                { gene: "PDGFRA", frequency: "3.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "22.5" },
-                { gene: "CIC", frequency: "15.8" },
-                { gene: "FUBP1", frequency: "12.2" },
-                { gene: "RB1", frequency: "8.5" },
-                { gene: "PTEN", frequency: "5.2" }
-            ]
-        },
-        clinical: {
-            medianAge: 41,
-            malePercent: 53,
-            femalePercent: 47,
-            medianTMB: 0.8
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Leiomyosarcoma_-_high_mag.jpg/512px-Leiomyosarcoma_-_high_mag.jpg"
+  },
+  
+  "Low Grade Glioma": {
+    mutations: [
+      { gene: "IDH1", freq: 77 },
+      { gene: "TP53", freq: 50 },
+      { gene: "ATRX", freq: 42 },
+      { gene: "CIC", freq: 20 },
+      { gene: "FUBP1", freq: 10 },
+      { gene: "IDH2", freq: 5 },
+      { gene: "NOTCH1", freq: 5 },
+      { gene: "PIK3CA", freq: 5 },
+      { gene: "PIK3R1", freq: 4 },
+      { gene: "NF1", freq: 3 }
+    ],
+    amplifications: [
+      { gene: "CDK4", freq: 5 },
+      { gene: "PDGFRA", freq: 4 },
+      { gene: "MDM2", freq: 3 },
+      { gene: "EGFR", freq: 2 },
+      { gene: "MYC", freq: 2 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 25 },
+      { gene: "CIC", freq: 10 },
+      { gene: "FUBP1", freq: 8 },
+      { gene: "PTEN", freq: 5 },
+      { gene: "RB1", freq: 3 }
+    ],
+    clinical: {
+      male: 55,
+      female: 45,
+      medianAge: 41,
+      tmb: 1.0,
+      survival5yr: 70
     },
-    "Testicular Cancer": {
-        displayName: "Testicular Cancer",
-        studyId: "tgct_tcga",
-        sampleCount: 150,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Seminoma_high_mag.jpg/512px-Seminoma_high_mag.jpg",
-        histologyCaption: "Testicular seminoma - H&E stain",
-        mutations: [
-            { gene: "KIT", frequency: "18.5" },
-            { gene: "KRAS", frequency: "12.2" },
-            { gene: "NRAS", frequency: "5.8" },
-            { gene: "TP53", frequency: "4.5" },
-            { gene: "BRAF", frequency: "3.2" },
-            { gene: "PIK3CA", frequency: "2.8" },
-            { gene: "AKT1", frequency: "2.2" },
-            { gene: "PTEN", frequency: "1.8" },
-            { gene: "CTNNB1", frequency: "1.5" },
-            { gene: "CDC27", frequency: "1.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "KIT", frequency: "22.5" },
-                { gene: "KRAS", frequency: "15.8" },
-                { gene: "CCND2", frequency: "12.5" },
-                { gene: "MDM2", frequency: "8.2" },
-                { gene: "NANOG", frequency: "6.5" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "5.2" },
-                { gene: "PTEN", frequency: "3.8" },
-                { gene: "RB1", frequency: "2.5" },
-                { gene: "TP53", frequency: "2.2" },
-                { gene: "SMAD4", frequency: "1.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 31,
-            malePercent: 100,
-            femalePercent: 0,
-            medianTMB: 0.5
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Astrocytoma_IDH-mutant.jpg/512px-Astrocytoma_IDH-mutant.jpg"
+  },
+  
+  "Testicular Germ Cell Tumor": {
+    mutations: [
+      { gene: "KIT", freq: 18 },
+      { gene: "KRAS", freq: 14 },
+      { gene: "NRAS", freq: 4 },
+      { gene: "TP53", freq: 3 },
+      { gene: "BRAF", freq: 2 },
+      { gene: "PIK3CA", freq: 2 },
+      { gene: "AKT1", freq: 1 },
+      { gene: "CTNNB1", freq: 1 },
+      { gene: "STK11", freq: 1 },
+      { gene: "PTEN", freq: 1 }
+    ],
+    amplifications: [
+      { gene: "KRAS", freq: 60 },
+      { gene: "KIT", freq: 20 },
+      { gene: "CCND2", freq: 15 },
+      { gene: "MDM2", freq: 10 },
+      { gene: "MYC", freq: 8 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 5 },
+      { gene: "PTEN", freq: 3 },
+      { gene: "RB1", freq: 2 },
+      { gene: "TP53", freq: 1 },
+      { gene: "NF1", freq: 1 }
+    ],
+    clinical: {
+      male: 100,
+      female: 0,
+      medianAge: 31,
+      tmb: 0.5,
+      survival5yr: 95
     },
-    "Esophageal Cancer": {
-        displayName: "Esophageal Cancer",
-        studyId: "esca_tcga",
-        sampleCount: 185,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Esophageal_adenocarcinoma_%282%29.jpg/512px-Esophageal_adenocarcinoma_%282%29.jpg",
-        histologyCaption: "Esophageal carcinoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "72.5" },
-            { gene: "CDKN2A", frequency: "15.8" },
-            { gene: "NFE2L2", frequency: "12.2" },
-            { gene: "NOTCH1", frequency: "10.5" },
-            { gene: "PIK3CA", frequency: "8.8" },
-            { gene: "KMT2D", frequency: "8.2" },
-            { gene: "FAT1", frequency: "7.5" },
-            { gene: "ERBB2", frequency: "6.8" },
-            { gene: "SMAD4", frequency: "5.5" },
-            { gene: "ARID1A", frequency: "5.2" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "CCND1", frequency: "38.5" },
-                { gene: "SOX2", frequency: "28.2" },
-                { gene: "TP63", frequency: "22.5" },
-                { gene: "ERBB2", frequency: "18.8" },
-                { gene: "EGFR", frequency: "15.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "42.5" },
-                { gene: "SMAD4", frequency: "15.8" },
-                { gene: "PTEN", frequency: "8.5" },
-                { gene: "RB1", frequency: "6.2" },
-                { gene: "ARID1A", frequency: "5.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 62,
-            malePercent: 82,
-            femalePercent: 18,
-            medianTMB: 5.2
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Seminoma_high_mag.jpg/512px-Seminoma_high_mag.jpg"
+  },
+  
+  "Esophageal Carcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 72 },
+      { gene: "NFE2L2", freq: 10 },
+      { gene: "KMT2D", freq: 10 },
+      { gene: "NOTCH1", freq: 9 },
+      { gene: "PIK3CA", freq: 8 },
+      { gene: "CDKN2A", freq: 8 },
+      { gene: "FAT1", freq: 7 },
+      { gene: "RB1", freq: 6 },
+      { gene: "EP300", freq: 6 },
+      { gene: "ERBB2", freq: 5 }
+    ],
+    amplifications: [
+      { gene: "CCND1", freq: 35 },
+      { gene: "SOX2", freq: 20 },
+      { gene: "EGFR", freq: 15 },
+      { gene: "ERBB2", freq: 12 },
+      { gene: "MYC", freq: 10 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 40 },
+      { gene: "SMAD4", freq: 12 },
+      { gene: "RB1", freq: 10 },
+      { gene: "PTEN", freq: 8 },
+      { gene: "NOTCH1", freq: 5 }
+    ],
+    clinical: {
+      male: 82,
+      female: 18,
+      medianAge: 62,
+      tmb: 5.5,
+      survival5yr: 20
     },
-    "Kidney Papillary Carcinoma": {
-        displayName: "Kidney Papillary Carcinoma",
-        studyId: "kirp_tcga",
-        sampleCount: 292,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Papillary_renal_cell_carcinoma_-_high_mag.jpg/512px-Papillary_renal_cell_carcinoma_-_high_mag.jpg",
-        histologyCaption: "Papillary renal cell carcinoma - H&E stain",
-        mutations: [
-            { gene: "MET", frequency: "12.5" },
-            { gene: "SETD2", frequency: "8.8" },
-            { gene: "NF2", frequency: "6.5" },
-            { gene: "KMT2C", frequency: "5.8" },
-            { gene: "FAT1", frequency: "5.2" },
-            { gene: "BAP1", frequency: "4.5" },
-            { gene: "PBRM1", frequency: "4.2" },
-            { gene: "STAG2", frequency: "3.8" },
-            { gene: "NFE2L2", frequency: "3.2" },
-            { gene: "TP53", frequency: "2.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MET", frequency: "18.5" },
-                { gene: "MYC", frequency: "8.2" },
-                { gene: "EGFR", frequency: "5.5" },
-                { gene: "CCND1", frequency: "4.2" },
-                { gene: "MDM2", frequency: "3.5" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "18.2" },
-                { gene: "SETD2", frequency: "12.5" },
-                { gene: "BAP1", frequency: "8.8" },
-                { gene: "NF2", frequency: "6.5" },
-                { gene: "PTEN", frequency: "5.2" }
-            ]
-        },
-        clinical: {
-            medianAge: 61,
-            malePercent: 73,
-            femalePercent: 27,
-            medianTMB: 1.0
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Esophageal_squamous_cell_carcinoma_-_high_mag.jpg/512px-Esophageal_squamous_cell_carcinoma_-_high_mag.jpg"
+  },
+  
+  "Kidney Papillary Cell Carcinoma": {
+    mutations: [
+      { gene: "MET", freq: 17 },
+      { gene: "KMT2D", freq: 10 },
+      { gene: "SETD2", freq: 10 },
+      { gene: "NF2", freq: 8 },
+      { gene: "SMARCB1", freq: 6 },
+      { gene: "FAT1", freq: 6 },
+      { gene: "BAP1", freq: 5 },
+      { gene: "PBRM1", freq: 5 },
+      { gene: "TP53", freq: 4 },
+      { gene: "CDKN2A", freq: 4 }
+    ],
+    amplifications: [
+      { gene: "MET", freq: 15 },
+      { gene: "MYC", freq: 8 },
+      { gene: "EGFR", freq: 5 },
+      { gene: "CCND1", freq: 4 },
+      { gene: "MDM2", freq: 3 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 20 },
+      { gene: "BAP1", freq: 8 },
+      { gene: "NF2", freq: 6 },
+      { gene: "SETD2", freq: 5 },
+      { gene: "PTEN", freq: 4 }
+    ],
+    clinical: {
+      male: 74,
+      female: 26,
+      medianAge: 62,
+      tmb: 1.2,
+      survival5yr: 82
     },
-    "Cholangiocarcinoma": {
-        displayName: "Cholangiocarcinoma",
-        studyId: "chol_tcga",
-        sampleCount: 51,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Cholangiocarcinoma_-_high_mag.jpg/512px-Cholangiocarcinoma_-_high_mag.jpg",
-        histologyCaption: "Cholangiocarcinoma - H&E stain",
-        mutations: [
-            { gene: "IDH1", frequency: "22.5" },
-            { gene: "KRAS", frequency: "18.8" },
-            { gene: "TP53", frequency: "18.2" },
-            { gene: "ARID1A", frequency: "15.5" },
-            { gene: "BAP1", frequency: "12.8" },
-            { gene: "PBRM1", frequency: "10.2" },
-            { gene: "SMAD4", frequency: "8.5" },
-            { gene: "IDH2", frequency: "6.2" },
-            { gene: "EPHA2", frequency: "5.5" },
-            { gene: "PIK3CA", frequency: "4.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "ERBB2", frequency: "12.5" },
-                { gene: "MCL1", frequency: "8.8" },
-                { gene: "MDM2", frequency: "6.2" },
-                { gene: "MYC", frequency: "5.5" },
-                { gene: "CCND1", frequency: "4.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "22.5" },
-                { gene: "BAP1", frequency: "15.8" },
-                { gene: "PBRM1", frequency: "12.2" },
-                { gene: "ARID1A", frequency: "8.5" },
-                { gene: "SMAD4", frequency: "6.8" }
-            ]
-        },
-        clinical: {
-            medianAge: 63,
-            malePercent: 45,
-            femalePercent: 55,
-            medianTMB: 1.3
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Papillary_renal_cell_carcinoma_-_high_mag.jpg/512px-Papillary_renal_cell_carcinoma_-_high_mag.jpg"
+  },
+  
+  "Cholangiocarcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 35 },
+      { gene: "KRAS", freq: 22 },
+      { gene: "IDH1", freq: 18 },
+      { gene: "ARID1A", freq: 15 },
+      { gene: "BAP1", freq: 12 },
+      { gene: "PBRM1", freq: 10 },
+      { gene: "PIK3CA", freq: 6 },
+      { gene: "SMAD4", freq: 6 },
+      { gene: "IDH2", freq: 5 },
+      { gene: "FGFR2", freq: 5 }
+    ],
+    amplifications: [
+      { gene: "CCND1", freq: 10 },
+      { gene: "ERBB2", freq: 8 },
+      { gene: "MYC", freq: 6 },
+      { gene: "MDM2", freq: 5 },
+      { gene: "MET", freq: 4 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 25 },
+      { gene: "BAP1", freq: 12 },
+      { gene: "PTEN", freq: 8 },
+      { gene: "SMAD4", freq: 6 },
+      { gene: "ARID1A", freq: 5 }
+    ],
+    clinical: {
+      male: 56,
+      female: 44,
+      medianAge: 65,
+      tmb: 1.8,
+      survival5yr: 10
     },
-    "Adrenocortical Carcinoma": {
-        displayName: "Adrenocortical Carcinoma",
-        studyId: "acc_tcga",
-        sampleCount: 92,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Adrenal_cortical_carcinoma_-_high_mag.jpg/512px-Adrenal_cortical_carcinoma_-_high_mag.jpg",
-        histologyCaption: "Adrenocortical carcinoma - H&E stain",
-        mutations: [
-            { gene: "TP53", frequency: "18.5" },
-            { gene: "CTNNB1", frequency: "15.2" },
-            { gene: "ZNRF3", frequency: "12.8" },
-            { gene: "PRKAR1A", frequency: "8.5" },
-            { gene: "MEN1", frequency: "6.2" },
-            { gene: "DAXX", frequency: "5.5" },
-            { gene: "TERT", frequency: "4.8" },
-            { gene: "RB1", frequency: "4.2" },
-            { gene: "APC", frequency: "3.5" },
-            { gene: "MED12", frequency: "2.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "TERT", frequency: "18.5" },
-                { gene: "CDK4", frequency: "12.2" },
-                { gene: "MDM2", frequency: "8.5" },
-                { gene: "MYC", frequency: "6.8" },
-                { gene: "CCNE1", frequency: "5.2" }
-            ],
-            deletions: [
-                { gene: "CDKN2A", frequency: "25.8" },
-                { gene: "RB1", frequency: "15.2" },
-                { gene: "ZNRF3", frequency: "12.5" },
-                { gene: "TP53", frequency: "10.8" },
-                { gene: "DAXX", frequency: "6.2" }
-            ]
-        },
-        clinical: {
-            medianAge: 47,
-            malePercent: 35,
-            femalePercent: 65,
-            medianTMB: 1.8
-        }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Cholangiocarcinoma_-_high_mag.jpg/512px-Cholangiocarcinoma_-_high_mag.jpg"
+  },
+  
+  "Adrenocortical Carcinoma": {
+    mutations: [
+      { gene: "TP53", freq: 25 },
+      { gene: "CTNNB1", freq: 20 },
+      { gene: "ZNRF3", freq: 15 },
+      { gene: "PRKAR1A", freq: 8 },
+      { gene: "MEN1", freq: 7 },
+      { gene: "DAXX", freq: 6 },
+      { gene: "ATRX", freq: 5 },
+      { gene: "RB1", freq: 4 },
+      { gene: "APC", freq: 3 },
+      { gene: "MED12", freq: 3 }
+    ],
+    amplifications: [
+      { gene: "TERT", freq: 15 },
+      { gene: "CDK4", freq: 10 },
+      { gene: "MDM2", freq: 8 },
+      { gene: "IGF2", freq: 80 },
+      { gene: "MYC", freq: 5 }
+    ],
+    deletions: [
+      { gene: "CDKN2A", freq: 15 },
+      { gene: "CDKN2C", freq: 12 },
+      { gene: "RB1", freq: 10 },
+      { gene: "TP53", freq: 8 },
+      { gene: "ZNRF3", freq: 6 }
+    ],
+    clinical: {
+      male: 41,
+      female: 59,
+      medianAge: 50,
+      tmb: 2.5,
+      survival5yr: 35
     },
-    "Pheochromocytoma": {
-        displayName: "Pheochromocytoma",
-        studyId: "pcpg_tcga",
-        sampleCount: 179,
-        histologyImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Pheochromocytoma_high_mag.jpg/512px-Pheochromocytoma_high_mag.jpg",
-        histologyCaption: "Pheochromocytoma - H&E stain",
-        mutations: [
-            { gene: "HRAS", frequency: "8.5" },
-            { gene: "RET", frequency: "6.2" },
-            { gene: "VHL", frequency: "5.5" },
-            { gene: "NF1", frequency: "4.8" },
-            { gene: "EPAS1", frequency: "4.2" },
-            { gene: "ATRX", frequency: "3.8" },
-            { gene: "CSDE1", frequency: "3.2" },
-            { gene: "TP53", frequency: "2.5" },
-            { gene: "MEN1", frequency: "2.2" },
-            { gene: "SDHB", frequency: "1.8" }
-        ],
-        cnv: {
-            amplifications: [
-                { gene: "MDM2", frequency: "5.2" },
-                { gene: "TERT", frequency: "4.5" },
-                { gene: "MYC", frequency: "3.8" },
-                { gene: "CCND1", frequency: "2.5" },
-                { gene: "CDK4", frequency: "2.2" }
-            ],
-            deletions: [
-                { gene: "VHL", frequency: "12.5" },
-                { gene: "CDKN2A", frequency: "8.8" },
-                { gene: "SDHB", frequency: "6.5" },
-                { gene: "NF1", frequency: "5.2" },
-                { gene: "ATRX", frequency: "4.5" }
-            ]
-        },
-        clinical: {
-            medianAge: 47,
-            malePercent: 43,
-            femalePercent: 57,
-            medianTMB: 0.6
-        }
-    }
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Adrenal_cortical_carcinoma_-_high_mag.jpg/512px-Adrenal_cortical_carcinoma_-_high_mag.jpg"
+  },
+  
+  "Pheochromocytoma and Paraganglioma": {
+    mutations: [
+      { gene: "SDHB", freq: 17 },
+      { gene: "SDHD", freq: 8 },
+      { gene: "VHL", freq: 7 },
+      { gene: "RET", freq: 6 },
+      { gene: "NF1", freq: 6 },
+      { gene: "HRAS", freq: 5 },
+      { gene: "SDHC", freq: 3 },
+      { gene: "SDHA", freq: 3 },
+      { gene: "MAX", freq: 3 },
+      { gene: "TMEM127", freq: 2 }
+    ],
+    amplifications: [
+      { gene: "MDM2", freq: 5 },
+      { gene: "MYC", freq: 3 },
+      { gene: "TERT", freq: 3 },
+      { gene: "CCND1", freq: 2 },
+      { gene: "CDK4", freq: 2 }
+    ],
+    deletions: [
+      { gene: "SDHB", freq: 18 },
+      { gene: "VHL", freq: 8 },
+      { gene: "CDKN2A", freq: 5 },
+      { gene: "NF1", freq: 4 },
+      { gene: "RB1", freq: 2 }
+    ],
+    clinical: {
+      male: 48,
+      female: 52,
+      medianAge: 47,
+      tmb: 0.5,
+      survival5yr: 85
+    },
+    histology: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Pheochromocytoma_high_mag.jpg/512px-Pheochromocytoma_high_mag.jpg"
+  }
 };
 
 const CANCER_TYPES = Object.keys(CANCER_DATA);
