@@ -98,14 +98,16 @@
       clinicalList.appendChild(li);
     });
     
-    // Histology - generic caption during gameplay
+    // Histology - no caption during gameplay
     histologyImg.src = data.histology;
     histologyImg.alt = 'Tumor histology';
-    histologyCaption.innerHTML = '<strong>Fig. 1 |</strong> Tumor histology (H&E stain)';
+    histologyCaption.innerHTML = '';
+    histologyCaption.style.display = 'none';
   }
 
   // Reveal the cancer type in caption
   function revealHistologyCaption() {
+    histologyCaption.style.display = 'block';
     histologyCaption.innerHTML = `<strong>Fig. 1 |</strong> Histology of ${currentCancer}`;
   }
 
