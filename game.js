@@ -1,9 +1,14 @@
+// game.js
+
 (function() {
   // Game state
   let currentCancer = null;
   let attemptsRemaining = 6;
   let guesses = [];
   let gameOver = false;
+
+  // Get cancer names as array
+  const CANCER_NAMES = Object.keys(CANCER_DATA);
 
   // DOM elements
   const guessInput = document.getElementById('guess-input');
@@ -22,10 +27,13 @@
 
   // Initialize game
   function init() {
-    currentCancer = CANCER_DATA[Math.floor(Math.random() * CANCER_DATA.length)];
+    // Pick random cancer from the keys
+    currentCancer = CANCER_NAMES[Math.floor(Math.random() * CANCER_NAMES.length)];
     attemptsRemaining = 6;
     guesses = [];
     gameOver = false;
+    
+    console.log('Answer:', currentCancer); // For testing
     
     renderProfile();
     renderGuesses();
@@ -46,11 +54,15 @@
     
     const bar = document.createElement('span');
     bar.className = 'tag-bar';
-    bar.style.width = `${Math.min(freq, 100)}%`;
+    bar.style.width = `${Math.min(freq || 0, 100)}%`;
     
     const text = document.createElement('span');
     text.className = 'tag-text';
-    text.textContent = `${gene} (${freq}%)`;
+    if (freq !== undefined) {
+      text.textContent = `${gene} (${freq}%)`;
+    } else {
+      text.textContent = gene;
+    }
     
     tag.appendChild(bar);
     tag.appendChild(text);
@@ -65,19 +77,19 @@
     // Mutations
     mutationsContainer.innerHTML = '';
     data.mutations.forEach(m => {
-      mutationsContainer.appendChild(createTag(m.gene, m.freq, 'mutation'));
+      mutationsContainer.appendChild(createTag(m.gene, m.frequency, 'mutation'));
     });
     
     // Amplifications
     amplificationsContainer.innerHTML = '';
-    data.amplifications.forEach(a => {
-      amplificationsContainer.appendChild(createTag(a.gene, a.freq, 'amplification'));
+    data.cnv.amplifications.forEach(gene => {
+      amplificationsContainer.appendChild(createTag(gene, null, 'amplification'));
     });
     
     // Deletions
     deletionsContainer.innerHTML = '';
-    data.deletions.forEach(d => {
-      deletionsContainer.appendChild(createTag(d.gene, d.freq, 'deletion'));
+    data.cnv.deletions.forEach(gene => {
+      deletionsContainer.appendChild(createTag(gene, null, 'deletion'));
     });
     
     // Clinical
@@ -98,8 +110,13 @@
       clinicalList.appendChild(li);
     });
     
-    // Histology - no caption during gameplay
-    histologyImg.src = data.histology;
+    // Histology
+    if (data.histology && data.histology.url) {
+      histologyImg.src = data.histology.url;
+    } else {
+      histologyImg.src = '';
+      histologyImg.style.background = '#e0e0e0';
+    }
     histologyImg.alt = 'Tumor histology';
     histologyCaption.innerHTML = '';
     histologyCaption.style.display = 'none';
@@ -107,8 +124,13 @@
 
   // Reveal the cancer type in caption
   function revealHistologyCaption() {
+    const data = CANCER_DATA[currentCancer];
     histologyCaption.style.display = 'block';
-    histologyCaption.innerHTML = `<strong>Fig. 1 |</strong> Histology of ${currentCancer}`;
+    if (data.histology && data.histology.caption) {
+      histologyCaption.innerHTML = `<strong>Fig. 1 |</strong> ${data.histology.caption}`;
+    } else {
+      histologyCaption.innerHTML = `<strong>Fig. 1 |</strong> Histology of ${currentCancer}`;
+    }
   }
 
   // Render guesses
@@ -117,6 +139,7 @@
     guesses.forEach(g => {
       const li = document.createElement('li');
       li.textContent = g;
+      li.className = g === currentCancer ? 'correct' : 'incorrect';
       guessList.appendChild(li);
     });
   }
@@ -135,7 +158,7 @@
       return;
     }
     
-    const matches = CANCER_DATA.filter(c => 
+    const matches = CANCER_NAMES.filter(c => 
       c.toLowerCase().includes(value.toLowerCase()) && !guesses.includes(c)
     );
     
@@ -164,7 +187,7 @@
     
     if (!guess || gameOver) return;
     
-    if (!CANCER_DATA.includes(guess)) {
+    if (!CANCER_NAMES.includes(guess)) {
       alert('Please select a valid cancer type from the list.');
       return;
     }
@@ -196,7 +219,6 @@
     guessInput.disabled = true;
     submitBtn.disabled = true;
     
-    // Reveal the cancer type in histology caption
     revealHistologyCaption();
     
     if (won) {
