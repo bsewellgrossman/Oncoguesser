@@ -22,7 +22,7 @@
 
   // Initialize game
   function init() {
-    currentCancer = CANCER_TYPES[Math.floor(Math.random() * CANCER_TYPES.length)];
+    currentCancer = CANCER_DATA[Math.floor(Math.random() * CANCER_DATA.length)];
     attemptsRemaining = 6;
     guesses = [];
     gameOver = false;
@@ -135,7 +135,7 @@
       return;
     }
     
-    const matches = CANCER_TYPES.filter(c => 
+    const matches = CANCER_DATA.filter(c => 
       c.toLowerCase().includes(value.toLowerCase()) && !guesses.includes(c)
     );
     
@@ -164,7 +164,7 @@
     
     if (!guess || gameOver) return;
     
-    if (!CANCER_TYPES.includes(guess)) {
+    if (!CANCER_DATA.includes(guess)) {
       alert('Please select a valid cancer type from the list.');
       return;
     }
